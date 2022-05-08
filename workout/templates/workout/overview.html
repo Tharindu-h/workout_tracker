@@ -1,0 +1,17 @@
+{% extends "workout/base.html" %}
+{% block content %}
+  <div class="container">
+    <h3>Past Workouts</h3>
+  </div>
+  {% for workout in workouts %}
+  <div class="container">
+    <div class="card" style="">
+      <div class="card-body">
+        <h5 class="card-title">{{ workout.name}}</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+</div>
+  {% endfor %}
+{% endblock %}

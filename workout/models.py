@@ -15,7 +15,7 @@ class Weight(models.Model):
     weight = models.IntegerField(default=0, verbose_name=('Weight'))
 
     def __str__(self):
-        return self.weight
+        return str(self.weight)
 
 class Workout(models.Model):
     name        = models.CharField(max_length=70, verbose_name=('Name'))
