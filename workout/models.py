@@ -30,6 +30,7 @@ class Set(models.Model):
   weight      = models.ManyToManyField("Weight", verbose_name=("weight"))
   exercise    = models.ForeignKey('Exercise', verbose_name=('exercise'), on_delete=models.CASCADE, null=True)
   reps        = models.IntegerField(default=0, verbose_name=('Number of Reps'))
+  workout     = models.ForeignKey('Workout', verbose_name=('Workout'), on_delete=models.CASCADE, null=True)
 
   def __str__(self):
     return self.exercise.name +  "set of " + str(self.reps)
