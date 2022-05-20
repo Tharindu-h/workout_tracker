@@ -4,6 +4,7 @@ from django.db import models
 class Exercise(models.Model):
   name        = models.CharField(max_length=70, verbose_name=('Name'))
   description = models.CharField(max_length=256, blank=True, null=True, verbose_name=('Description'))
+  set         = models.ManyToManyField('Set', related_name=('sets'))
 
   def __str__(self):
     return self.name
@@ -18,7 +19,7 @@ class Workout(models.Model):
   name        = models.CharField(max_length=70, verbose_name=('Name'))
   description = models.CharField(max_length=256, blank=True, null=True, verbose_name=('Description'))
   dateTime    = models.DateTimeField()
-  exercises   = models.ManyToManyField('Exercise', verbose_name=('Exercises'))
+  exercises   = models.ManyToManyField('Exercise', related_name=('exercises'))
 
   class Meta:
     ordering = ['-dateTime']
@@ -27,10 +28,8 @@ class Workout(models.Model):
     return self.name
 
 class Set(models.Model):
-  weight      = models.ManyToManyField("Weight", verbose_name=("weight"))
-  exercise    = models.ForeignKey('Exercise', verbose_name=('exercise'), on_delete=models.CASCADE, null=True)
+  weight      = models.IntegerField(default=0, verbose_name=('Weight'))  
   reps        = models.IntegerField(default=0, verbose_name=('Number of Reps'))
-  workout     = models.ForeignKey('Workout', verbose_name=('Workout'), on_delete=models.CASCADE, null=True)
 
   def __str__(self):
-    return self.exercise.name +  "set of " + str(self.reps)
+    return "Set of " + str(self.reps) + "at " + str(self.weight)

@@ -19,5 +19,10 @@ class WorkoutDetailsView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         #context[""] = 
+        w = Workout.objects.all()
+        for i in w:
+            print(i.exercises.all())
+            for j in i.exercises.all():
+                print(j.set.all())
         return context
     

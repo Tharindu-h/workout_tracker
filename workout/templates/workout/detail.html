@@ -1,1 +1,28 @@
 {% extends "workout/base.html" %}
+{% block content %}
+  {% if object.name %}
+    <h3 style="padding-left: 30px">{{ object.name }}</h3>
+  {% endif %}
+  {% for e in object.exercises.all %}
+    <div class="container">
+      <div class="card">
+        <div class="card-header">{{ e.name }}</div>
+          <div class="col">
+            <div class="p-3 border bg-light">/div>
+          </div> {% comment %} figure out how the Bootstrap grid system works{% endcomment %}
+      </div>
+    </div>
+{% comment %}     <h4>{{ e.name }}</h4>
+      {% for s in e.set.all %}
+        <h5>{{ s }}</h5>
+      {% endfor %} {% endcomment %}
+  {% endfor %}
+{% endblock content %}
+
+
+
+  <div class="row gx-5">
+    <div class="col">
+     <div class="p-3 border bg-light">Custom column padding</div>
+    </div>
+  </div>
