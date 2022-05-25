@@ -16,8 +16,4 @@ class WorkoutDetailsView(DetailView):
     model         = Workout
     template_name = 'workout/detail.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        #context[""] = 
-        return context
     
