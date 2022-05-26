@@ -27,4 +27,4 @@ class Set(models.Model):
   workout     = models.ForeignKey(Workout, on_delete=models.CASCADE)
 
   def __str__(self):
-    return "Set of " + str(self.reps) + "at " + str(self.weight)
+    return self.workout.name + " " + self.exercise.name

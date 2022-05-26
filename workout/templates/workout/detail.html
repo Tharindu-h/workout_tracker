@@ -1,4 +1,5 @@
 {% extends "workout/base.html" %}
+{% load index %}
 {% block content %}
   {% if object.name %}
     <h3 style="padding-left: 30px">{{ object.name }}</h3>
@@ -12,7 +13,7 @@
           <div class="col-4 text-center">Reps</div>
           <div class="col-4 text-center">Weight</div>
         </div>
-        {% for s in e.set.all %}
+        {% for s in sets|index:forloop.counter %}
           <div class="row">
             <div class="col-4 text-center">Set {{ forloop.counter }}</div>
             <div class="col-4 text-center">{{ s.reps }}</div> 
