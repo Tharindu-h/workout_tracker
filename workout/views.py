@@ -6,7 +6,7 @@ from django.db.models import fields
 from .models import *
 from .forms import WorkoutCreateForm
 
-@login_required
+#@login_required
 class WorkoutsOverView(TemplateView):
 	template_name = 'workout/overview.html'
     
