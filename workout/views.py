@@ -1,12 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View, TemplateView
-from django.contrib.auth.decorators import login_required
 from django.db import models
 from django.db.models import fields
 from .models import *
 from .forms import WorkoutCreateForm
 
-#@login_required
 class WorkoutsOverView(TemplateView):
 	template_name = 'workout/overview.html'
     
