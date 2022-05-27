@@ -1,5 +1,5 @@
-from pyexpat import model
 from django.db import models
+from users.models import User
 
 class Exercise(models.Model):
   name        = models.CharField(max_length=70, verbose_name=('Name'))
@@ -13,6 +13,7 @@ class Workout(models.Model):
   description = models.CharField(max_length=256, blank=True, null=True, verbose_name=('Description'))
   dateTime    = models.DateTimeField()
   exercises   = models.ManyToManyField('Exercise', related_name=('exercises'))
+  user        = models.ForeignKey(User, verbose_name=('User'), on_delete=models.CASCADE)
 
   class Meta:
     ordering = ['-dateTime']
