@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View, TemplateView
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.db import models
 from django.db.models import fields
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -18,9 +18,10 @@ class WorkoutDetailsView(LoginRequiredMixin, DetailView):
 	model         = Workout
 	template_name = 'workout/detail.html'
 
+	def get_queryset(self):
+		return self.model.objects.filter(user__pk=self.request.user.id)
+	
 	def get_context_data(self, **kwargs):
-		if self.object.pk != self.request.user.id:
-			print("yooooooooooooooooooo")
 		context  = super().get_context_data(**kwargs)
 		queryset = Set.objects.filter(workout__user__pk=self.request.user.id, workout__pk=self.object.pk)
 		exercises_sets = [[]] 

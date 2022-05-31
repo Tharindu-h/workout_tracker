@@ -3,6 +3,9 @@
   <div class="container" style="padding-top: 30px">
     <h3>Past Workouts</h3>
   </div>
+  <div class="container">
+    <a class="btn btn-primary btn-block btn-lg" href="{% url 'workout_create' %}">+ Start Workout</a>
+  </div>
   {% for workout in workouts %}
   <div class="container" style="padding-top: 30px">
     <div class="card" style="">
