@@ -39,3 +39,26 @@ class WorkoutCreateView(LoginRequiredMixin, CreateView):
 	model         = Workout
 	form_class    = WorkoutCreateForm
 	template_name = 'workout/create_workout.html'
+
+
+# function based view might be a better option for create and edit views
+# I could use htmx to make ajax calls in the form, so when it gets created 
+# 
+
+class WorkoutUpdateView(LoginRequiredMixin, UpdateView):
+  model = Workout
+  form_class = WorkoutCreateForm
+  template_name = 'workout/create_workout.html'
+
+
+
+
+
+
+
+
+
+
+
+
+
