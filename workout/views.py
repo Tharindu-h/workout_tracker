@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, TemplateView
-from django.db import models
-from django.db.models import fields
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.forms.models import modelformset_factory
 from .models import *
-from .forms import WorkoutCreateForm
+from .forms import WorkoutCreateForm, SetCreateForm
 
 class WorkoutsOverView(LoginRequiredMixin, TemplateView):
 	template_name = 'workout/overview.html'
@@ -50,12 +50,28 @@ class WorkoutUpdateView(LoginRequiredMixin, UpdateView):
   form_class = WorkoutCreateForm
   template_name = 'workout/create_workout.html'
 
+@login_required
+def workout_edit_view(request, pk=None):
+  obj     = get_object_or_404(Workout, pk=pk, user=request.user)
+  form    = WorkoutCreateForm(request.POST or None, instance=obj)
+  form_2  = SetCreateForm(request.POST or None)
 
+  # SetCreateFormSet = modelformset_factory(Set, form=SetCreateForm, extra=0)
+  # formset = SetCreateFormSet(request.POST or None)
 
+  context = {
+    'form'   : form,
+    'form_2' : form_2,
+    'object' : obj
+  }
+  
+  if form.is_valid() and form_2.is_valid():
+    form.save(commit=False)
+    form_2.save(commit=False)
+    print("form", form.cleaned_data)
+    print("form_2", form_2.cleaned_data)
 
-
-
-
+  return render(request, 'workout/create_workout.html', context)
 
 
 
