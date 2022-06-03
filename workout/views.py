@@ -51,6 +51,25 @@ class WorkoutUpdateView(LoginRequiredMixin, UpdateView):
   template_name = 'workout/create_workout.html'
 
 @login_required
+def workout_create_view(request):
+  form   = WorkoutCreateForm(request.POST or None)
+  form_2 = SetCreateForm(request.POST or None)
+
+  context = {
+    'form'   : form,
+    'form_2' : form_2
+  }
+
+  if form.is_valid() and form_2.is_valid():
+    form.save(commit=False)
+    form_2.save(commit=False)
+    print("form", form.cleaned_data)
+    print("form_2", form_2.cleaned_data)
+
+  return render(request, 'workout/create_workout.html', context)
+
+
+@login_required
 def workout_edit_view(request, pk=None):
   obj     = get_object_or_404(Workout, pk=pk, user=request.user)
   form    = WorkoutCreateForm(request.POST or None, instance=obj)
