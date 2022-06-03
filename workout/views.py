@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from django.views.generic import DetailView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory
@@ -33,22 +33,10 @@ class WorkoutDetailsView(LoginRequiredMixin, DetailView):
 			exercises_sets.append(current_exercise)
 		context["sets"] = exercises_sets			
 		return context
-	
-
-class WorkoutCreateView(LoginRequiredMixin, CreateView):
-	model         = Workout
-	form_class    = WorkoutCreateForm
-	template_name = 'workout/create_workout.html'
-
 
 # function based view might be a better option for create and edit views
 # I could use htmx to make ajax calls in the form, so when it gets created 
 # 
-
-class WorkoutUpdateView(LoginRequiredMixin, UpdateView):
-  model = Workout
-  form_class = WorkoutCreateForm
-  template_name = 'workout/create_workout.html'
 
 @login_required
 def workout_create_view(request):
