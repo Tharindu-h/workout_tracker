@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import DetailView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -81,7 +82,13 @@ def workout_edit_view(request, pk=None):
   return render(request, 'workout/create_workout.html', context)
 
 
+class WorkoutDelete(DeleteView):
+  model       = Workout
+  success_url = reverse_lazy('workout_overview')
 
-
-
+  def test_func(self):
+    workout = self.get_object()
+    if self.request.user == workout.user:
+      return True
+    return False
 
