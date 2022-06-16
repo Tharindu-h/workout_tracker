@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory
 from .models import *
-from .forms import WorkoutCreateForm, SetCreateForm
+#from .forms import WorkoutCreateForm, SetCreateForm
 
 class WorkoutsOverView(LoginRequiredMixin, TemplateView):
 	template_name = 'workout/overview.html'
@@ -14,7 +14,7 @@ class WorkoutsOverView(LoginRequiredMixin, TemplateView):
 		context = super().get_context_data(**kwargs)
 		context['workouts'] = Workout.objects.filter(user__pk=self.request.user.id)
 		return context
-
+"""
 class WorkoutDetailsView(LoginRequiredMixin, DetailView):
 	model         = Workout
 	template_name = 'workout/detail.html'
@@ -92,3 +92,4 @@ class WorkoutDelete(DeleteView):
       return True
     return False
 
+"""
