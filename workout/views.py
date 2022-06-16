@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory
 from .models import *
-#from .forms import WorkoutCreateForm, SetCreateForm
+from .forms import WorkoutCreateForm#, SetCreateForm
 
 class WorkoutsOverView(LoginRequiredMixin, TemplateView):
 	template_name = 'workout/overview.html'
@@ -38,26 +38,26 @@ class WorkoutDetailsView(LoginRequiredMixin, DetailView):
 # function based view might be a better option for create and edit views
 # I could use htmx to make ajax calls in the form, so when it gets created 
 # 
-
+"""
 @login_required
 def workout_create_view(request):
   form   = WorkoutCreateForm(request.POST or None)
-  form_2 = SetCreateForm(request.POST or None)
+ # form_2 = SetCreateForm(request.POST or None)
 
   context = {
-    'form'   : form,
-    'form_2' : form_2
+    'form'   : form
+   # 'form_2' : form_2
   }
 
   if form.is_valid() and form_2.is_valid():
     form.save(commit=False)
-    form_2.save(commit=False)
+   # form_2.save(commit=False)
     print("form", form.cleaned_data)
     print("form_2", form_2.cleaned_data)
 
   return render(request, 'workout/create_workout.html', context)
 
-
+"""
 @login_required
 def workout_edit_view(request, pk=None):
   obj     = get_object_or_404(Workout, pk=pk, user=request.user)
