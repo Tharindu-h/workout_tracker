@@ -16,9 +16,11 @@ entity User {
 entity Workout {
    * pk <<generated>>
    ---
+     name : Char Field
    * Exercises <<OneToMany>>
    * User <<FK>>
-   * date : Date Field
+   * created  : Date-Time Field
+   * modified : Date-Time Field
 }
 
 entity Exercise {
@@ -27,6 +29,7 @@ entity Exercise {
    * exercise_number : Int Field
    * exercise_type <<FK>>
    * sets <<OneToMany>>
+     rpe    : Int Field
 }
 
 entity ExerciseType {
@@ -42,7 +45,7 @@ entity Set {
    * set_number: : Int Field
    * weight : Int Field
    * reps   : Int Field
-   * rpe    : Int Field
+   
 }
 
 ' Workout is related to exaxtly one User, User has zero or many workouts
