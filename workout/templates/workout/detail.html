@@ -24,6 +24,9 @@
   </div>
   </br>
   {% endfor %}
+  <div class="container">
+    <a class="btn btn-danger" href="{% url 'workout_delete' pk=object.pk %}">Delete Workout</a>
+  </div>
 {% endblock content %}
 
 
