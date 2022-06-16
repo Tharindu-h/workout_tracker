@@ -1,0 +1,56 @@
+
+@startuml
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity User {
+   * pk <<generated>>
+   ---
+   * username: Char Field
+}
+
+entity Workout {
+   * pk <<generated>>
+   ---
+   * Exercises <<OneToMany>>
+   * User <<FK>>
+   * date : Date Field
+}
+
+entity Exercise {
+   * pk <<generated>>
+   ---
+   * exercise_number : Int Field
+   * exercise_type <<FK>>
+   * sets <<OneToMany>>
+}
+
+entity ExerciseType {
+   * pk <<generated>>
+   ---
+   * name : Char Field
+     description : Char Field
+}
+
+entity Set {
+   * pk <<generated>>
+   ---
+   * set_number: : Int Field
+   * weight : Int Field
+   * reps   : Int Field
+   * rpe    : Int Field
+}
+
+' Workout is related to exaxtly one User, User has zero or many workouts
+Workout }o--|| User
+' Workout is related to one or many Exercise instances and A Exercise is related to exactly one Workout instance 
+Workout ||--|{ Exercise
+' Exercise has exactly one ExerciseType but ExerciseType can be related to many Exercise instances
+Exercise }o--|| ExerciseType
+' an Exercise has one or many sets, a Set is only related to one Exercise
+Exercise ||--|{ Set
+@enduml
