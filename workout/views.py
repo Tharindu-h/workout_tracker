@@ -14,31 +14,19 @@ class WorkoutsOverView(LoginRequiredMixin, TemplateView):
 		context = super().get_context_data(**kwargs)
 		context['workouts'] = Workout.objects.filter(user__pk=self.request.user.id)
 		return context
-"""
+
 class WorkoutDetailsView(LoginRequiredMixin, DetailView):
 	model         = Workout
 	template_name = 'workout/detail.html'
 
 	def get_queryset(self):
 		return self.model.objects.filter(user__pk=self.request.user.id)
-	
-	def get_context_data(self, **kwargs):
-		context  = super().get_context_data(**kwargs)
-		queryset = Set.objects.filter(workout__user__pk=self.request.user.id, workout__pk=self.object.pk)
-		exercises_sets = [[]] 
-		for obj in self.object.exercises.all():
-			current_exercise = []
-			for set in queryset:
-				if set.exercise.pk == obj.pk:
-					current_exercise.append(set)
-			exercises_sets.append(current_exercise)
-		context["sets"] = exercises_sets			
-		return context
+
 
 # function based view might be a better option for create and edit views
 # I could use htmx to make ajax calls in the form, so when it gets created 
 # 
-"""
+
 @login_required
 def workout_create_view(request):
   form   = WorkoutCreateForm(request.POST or None)
@@ -80,7 +68,7 @@ def workout_edit_view(request, pk=None):
     print("form_2", form_2.cleaned_data)
 
   return render(request, 'workout/create_workout.html', context)
-
+"""
 
 class WorkoutDelete(DeleteView):
   model       = Workout
@@ -92,4 +80,3 @@ class WorkoutDelete(DeleteView):
       return True
     return False
 
-"""
