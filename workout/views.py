@@ -30,12 +30,13 @@ class WorkoutDetailsView(LoginRequiredMixin, DetailView):
 @login_required
 def workout_create_view(request):
 
-  if request.method == "GET":
+  exercises = ExerciseType.objects.all()
+  context = {
+    'exercises' : exercises
+  }
 
-    exercises = ExerciseType.objects.all()
-    context = {
-      'exercises' : exercises
-    }
+  if request.method == "POST":
+    print(request.POST)
   return render(request, 'workout/create_workout.html', context)
 
 """
