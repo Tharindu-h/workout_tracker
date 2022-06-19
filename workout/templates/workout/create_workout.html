@@ -4,9 +4,63 @@
   <form method="POST">
     {% csrf_token %}
     <fieldset class="form-group">
-      <legend class="border-bottom mb-4">Test</legend>
-      {{ form|crispy }}
-      {{ form_2|crispy }}
+      <legend class="border-bottom mb-4">New Workout</legend>
+      <div class="container">
+        <div class="row mt-2">
+          <div class="col-md">
+            <label>Workout Name</label>
+          </div>
+          <div class="col-md-10">
+            <input type="text" class="form-control" name="name"></input>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row mt-4">
+          <div class="col-md">
+            <label>Exercise</label>
+          </div>
+          <div class="col-md-10">
+            <select name="exercise">
+              <option value="----">----</option>
+              {% for exercise in exercises %}
+                <option value="{{ exercise.name }}">{{ exercise.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-5">
+            <div class="d-flex justify-content-center">Weight</div>
+          </div>
+          <div class="col-md-5">
+            <div class="d-flex justify-content-center">Reps</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <label>Set 1</label> 
+          </div>
+          <div class="col-md-5">
+            <input type="text" class="form-control" name="set1-weight"></input>
+          </div>
+          <div class="col-md-5">
+            <input type="text" class="form-control" name="set1-reps"></input>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md">
+            
+          </div>
+          <div class="col-md-10">
+            
+          </div>
+        </div>
+      </div>
     </fieldset>
     <div class="form-group">
       <button class="btn btn-outline-info" type="submit">Save</button>
