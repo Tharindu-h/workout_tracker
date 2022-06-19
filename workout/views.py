@@ -29,20 +29,13 @@ class WorkoutDetailsView(LoginRequiredMixin, DetailView):
 
 @login_required
 def workout_create_view(request):
-  form   = WorkoutCreateForm(request.POST or None)
- # form_2 = SetCreateForm(request.POST or None)
 
-  context = {
-    'form'   : form
-   # 'form_2' : form_2
-  }
+  if request.method == "GET":
 
-  if form.is_valid() and form_2.is_valid():
-    form.save(commit=False)
-   # form_2.save(commit=False)
-    print("form", form.cleaned_data)
-    print("form_2", form_2.cleaned_data)
-
+    exercises = ExerciseType.objects.all()
+    context = {
+      'exercises' : exercises
+    }
   return render(request, 'workout/create_workout.html', context)
 
 """
