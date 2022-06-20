@@ -38,22 +38,20 @@ def workout_create_view(request):
 
   if request.method == "POST":
     if request.POST.get("save"):
-      curr_user    = User.objects.get(username=request.user)
-      set1         = Set(set_number=1, weight=request.POST.get("E1S1-weight"), reps=request.POST.get("E1S1-reps"))
-      set1.save()
-      print({"set1" : set1})
-      e1_type      = ExerciseType.objects.get(name=request.POST.get("exercise"))
-      print({"e1_type": e1_type})
-      exercise1    = Exercise(exercise_number=1, exercise_type=e1_type, rpe=10)
-      exercise1.save()
-      exercise1.sets.add(set1)
-      print({"exercise1": exercise1})
-      obj, created = Workout.objects.get_or_create(name=request.POST.get("name"), user=curr_user)
-      obj.save()
-      obj.exercises.add(exercise1)
-
-
-
+      # curr_user    = User.objects.get(username=request.user)
+      # set1         = Set(set_number=1, weight=request.POST.get("E1S1-weight"), reps=request.POST.get("E1S1-reps"))
+      # set1.save()
+      # print({"set1" : set1})
+      # e1_type      = ExerciseType.objects.get(name=request.POST.get("exercise"))
+      # print({"e1_type": e1_type})
+      # exercise1    = Exercise(exercise_number=1, exercise_type=e1_type, rpe=10)
+      # exercise1.save()
+      # exercise1.sets.add(set1)
+      # print({"exercise1": exercise1})
+      # obj, created = Workout.objects.get_or_create(name=request.POST.get("name"), user=curr_user)
+      # obj.save()
+      # obj.exercises.add(exercise1)
+      print(request.POST)
 
 
   return render(request, 'workout/create_workout.html', context)
