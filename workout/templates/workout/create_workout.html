@@ -39,7 +39,7 @@
             <div class="d-flex justify-content-center">Reps</div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" id="set1">
           <div class="col-2">
             <label>Set 1</label> 
           </div>
@@ -57,7 +57,7 @@
         <div class="row mt-2 justify-content-start">
           <div class="col-2"></div>
           <div class="col-3">
-            <button type="button" class="btn btn-outline-success">Add New Set</button>
+            <button type="button" class="btn btn-outline-success" id="addSet">Add New Set</button>
           </div>
         </div>
 {% comment %}
@@ -99,3 +99,14 @@
     </div>
   </form>
 {% endblock content %}
+
+
+{% block js %}
+  <script>
+    const addSet = document.getElementById("addSet");
+    addSet.addEventListener("click", cloneSetForm);
+    function cloneSetForm(){
+      console.log("test");
+    }
+  </script>
+{% endblock js %}
