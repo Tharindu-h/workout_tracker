@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div class="container">
+      <div class="container" id="exercise1">
         <div class="row mt-4">
           <div class="col-md">
             <label>Exercise</label>
@@ -50,7 +50,7 @@
             <input type="text" class="form-control" name="E1S1-reps"></input>
           </div>
           <div class="col-2">
-            <button type="button" class="btn btn-outline-danger">Remove Set
+            <button type="button" class="btn btn-outline-danger" id="removeSet">Remove Set
             </button>
           </div>
         </div>
@@ -111,5 +111,26 @@
       const target = document.querySelector('#addSetButton');
       target.before(clonedSet);
     }
+
+
+    function removeClickHandler(e) {
+      if (e.target.matches('#removeSet')) {
+        console.log(e.target.parentNode.parentNode);
+        e.target.parentNode.parentNode.remove();
+      }
+    }
+    // reference to a list
+    const exercise1 = document.querySelector('#exercise1');
+
+    // add a single listener on list item
+    exercise1.addEventListener('click', removeClickHandler);
+    
+    {% comment %} const removeSet = document.getElementById("removeSet");
+    removeSet.addEventListener("click", removeSetForm);
+    function removeSetForm(){
+      const toBeRemoved = event.target.parentNode.parentNode;
+      console.log(event);
+      toBeRemoved.remove();
+    } {% endcomment %}
   </script>
 {% endblock js %}
