@@ -1,4 +1,5 @@
 {% extends "workout/base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
   <form method="POST">
@@ -102,8 +103,9 @@
 
 
 {% block js %}
-  <script>
-    const addSet = document.getElementById("addSet");
+<script src={% static 'workout/js/form.js' %}></script>
+  {% comment %} <script>
+    const addSet = document.querySelector("#addSet");
     addSet.addEventListener("click", cloneSetForm);
     function cloneSetForm(){
       const clonedSet = document.getElementById("set1").cloneNode(true);
@@ -124,13 +126,6 @@
 
     // add a single listener on list item
     exercise1.addEventListener('click', removeClickHandler);
-    
-    {% comment %} const removeSet = document.getElementById("removeSet");
-    removeSet.addEventListener("click", removeSetForm);
-    function removeSetForm(){
-      const toBeRemoved = event.target.parentNode.parentNode;
-      console.log(event);
-      toBeRemoved.remove();
-    } {% endcomment %}
-  </script>
+
+  </script> {% endcomment %}
 {% endblock js %}
