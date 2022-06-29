@@ -15,15 +15,18 @@ function cloneExerciseForm(){
 
 function removeClickHandler(e) {
   if (e.target.matches('.removeSet')) {
-    console.log(e.target.parentNode.parentNode);
     e.target.parentNode.parentNode.remove();
+  }
+  if (e.target.matches('.addSet')) {
+    // use event delegation to get the eventListeners to work with
+    // dynamically created items
   }
 }
 // reference to a list
-const exercise1 = document.querySelector('#exercise1');
+const exercises = document.querySelector('.exercises');
 
 // add a single listener on list item
-exercise1.addEventListener('click', removeClickHandler);
+exercises.addEventListener('click', removeClickHandler);
 
 
 function getSetForm(currSet){
