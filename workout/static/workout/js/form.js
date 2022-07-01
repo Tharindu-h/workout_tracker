@@ -1,8 +1,9 @@
-const addSet = document.querySelector(".addSet");
-addSet.addEventListener("click", cloneSetForm);
-function cloneSetForm(){
-  currSet = document.querySelectorAll('#exercise1 .set').length;
-  document.getElementById('addSetButton').insertAdjacentHTML("beforebegin", getSetForm(currSet + 1));
+// const addSet = document.querySelector(".addSet");
+// addSet.addEventListener("click", cloneSetForm);
+function cloneSetForm(id){
+  currSet = document.querySelectorAll(`#${id} .set`).length;
+  console.log(id.slice(id.length -1));
+  document.getElementById(`addSetButton${id.slice(id.length -1)}`).insertAdjacentHTML("beforebegin", getSetForm(currSet + 1));
 }
 
 const addExercise = document.querySelector(".addExercise");
@@ -20,6 +21,7 @@ function removeClickHandler(e) {
   if (e.target.matches('.addSet')) {
     // use event delegation to get the eventListeners to work with
     // dynamically created items
+    cloneSetForm(e.target.parentNode.parentNode.parentNode.id);
   }
 }
 // reference to a list
@@ -27,6 +29,8 @@ const exercises = document.querySelector('.exercises');
 
 // add a single listener on list item
 exercises.addEventListener('click', removeClickHandler);
+
+const exerciseOptions = document.getElementById('exercise_options');
 
 
 function getSetForm(currSet){
@@ -49,18 +53,13 @@ function getSetForm(currSet){
 }
 
 function getExerciseFrom(currExercise){
-  let exerciseForm =  '<div class="container" id="exercise' + currExercise +'">' +
+  let exerciseForm =  '<div class="container exercise" id="exercise' + currExercise +'">' +
                         '<div class="row mt-4">' +
                           '<div class="col-md">' +
                             '<label>Exercise</label>' +
                           '</div>' +
                           '<div class="col-md-10">' +
-                            '<select name="exercise">' +
-                              '<option value="----">----</option>' +
-                              '{% for exercise in exercises %}' +
-                                '<option value="{{ exercise.name }}">{{ exercise.name }}</option>' +
-                              '{% endfor %}' +
-                            '</select>' +
+                          exerciseOptions.innerHTML +
                           '</div>' +
                         '</div>' +
                         '<div class="row mt-4">' +
@@ -88,10 +87,10 @@ function getExerciseFrom(currExercise){
                             '</button>' +
                           '</div>' +
                         '</div>' +
-                        '<div class="row mt-2 justify-content-start" id="addSetButton">' +
+                        '<div class="row mt-2 justify-content-start" id="addSetButton'+ currExercise +'">' +
                           '<div class="col-2"></div>' +
                           '<div class="col-3">' +
-                            '<button type="button" class="btn btn-outline-success" id="addSet">Add New Set</button>' +
+                            '<button type="button" class="btn btn-outline-success addSet">Add New Set</button>' +
                           '</div>' +
                         '</div>' +
                       '</div>';
