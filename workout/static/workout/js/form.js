@@ -1,9 +1,7 @@
-// const addSet = document.querySelector(".addSet");
-// addSet.addEventListener("click", cloneSetForm);
 function cloneSetForm(id){
   currSet = document.querySelectorAll(`#${id} .set`).length;
   console.log(id.slice(id.length -1));
-  document.getElementById(`addSetButton${id.slice(id.length -1)}`).insertAdjacentHTML("beforebegin", getSetForm(currSet + 1));
+  document.getElementById(`addSetButton${id.slice(id.length -1)}`).insertAdjacentHTML("beforebegin", getSetForm(currSet + 1, parseInt(id.slice(id.length -1))));
 }
 
 const addExercise = document.querySelector(".addExercise");
@@ -19,30 +17,28 @@ function removeClickHandler(e) {
     e.target.parentNode.parentNode.remove();
   }
   if (e.target.matches('.addSet')) {
-    // use event delegation to get the eventListeners to work with
-    // dynamically created items
     cloneSetForm(e.target.parentNode.parentNode.parentNode.id);
   }
 }
+
 // reference to a list
 const exercises = document.querySelector('.exercises');
-
 // add a single listener on list item
 exercises.addEventListener('click', removeClickHandler);
 
 const exerciseOptions = document.getElementById('exercise_options');
 
 
-function getSetForm(currSet){
+function getSetForm(currSet, id){
   let setForm = '<div class="row set" id="set' + currSet +'">'+
                     '<div class="col-2">'+
                       '<label>Set ' + currSet + '</label>'+
                     '</div>'+
                     '<div class="col-3">'+
-                      '<input type="text" class="form-control" name="E1S1-weight"></input>'+
+                      '<input type="text" class="form-control" name="E'+ id +'-weight"></input>'+
                     '</div>'+
                     '<div class="col-3">'+
-                      '<input type="text" class="form-control" name="E1S1-reps"></input>'+
+                      '<input type="text" class="form-control" name="E'+ id +'-reps"></input>'+
                     '</div>'+
                     '<div class="col-2">'+
                       '<button type="button" class="btn btn-outline-danger removeSet">Remove Set'+
@@ -77,10 +73,10 @@ function getExerciseFrom(currExercise){
                             '<label>Set 1</label> ' +
                           '</div>' +
                           '<div class="col-3">' +
-                            '<input type="text" class="form-control" name="E'+ currExercise +'S1-weight"></input>' +
+                            '<input type="text" class="form-control" name="E'+ currExercise +'weight"></input>' +
                           '</div>' +
                           '<div class="col-3">' +
-                            '<input type="text" class="form-control" name="E'+ currExercise +'S1-reps"></input>' +
+                            '<input type="text" class="form-control" name="E'+ currExercise +'reps"></input>' +
                           '</div>' +
                           '<div class="col-2">' +
                             '<button type="button" class="btn btn-outline-danger removeSet">Remove Set' +

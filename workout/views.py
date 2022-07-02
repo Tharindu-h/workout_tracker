@@ -24,10 +24,6 @@ class WorkoutDetailsView(LoginRequiredMixin, DetailView):
 		return self.model.objects.filter(user__pk=self.request.user.id)
 
 
-# function based view might be a better option for create and edit views
-# I could use htmx to make ajax calls in the form, so when it gets created 
-# 
-
 @login_required
 def workout_create_view(request):
 
@@ -38,6 +34,32 @@ def workout_create_view(request):
 
   if request.method == "POST":
     if request.POST.get("save"):
+      print(request.POST)
+      workout = Workout(name=request.POST.get("name"), user=User.objects.get(username=request.user))
+      workout.save()
+      workout_exercises   = [] 
+      curr_exercise_number = 1
+      for e in request.POST.getlist("exercise"):
+        curr_e_type     = ExerciseType.objects.get(name=e)
+        curr_exercise   = Exercise(exercise_number=1, exercise_type=curr_e_type, rpe=10)
+        curr_exercise.save()
+        curr_set_number = 1
+        curr_exercise_sets = []
+        for s in request.POST.getlist(f"E{curr_exercise_number}-reps"):
+          print(request.POST.getlist(f"E{curr_exercise_number}-reps"))
+          curr_weight   = request.POST.getlist(f"E{curr_exercise_number}-weight")[curr_set_number - 1]
+          curr_set      = Set(set_number=curr_set_number, 
+                            weight=curr_weight, 
+                            reps=s)
+          curr_set.save()
+          #curr_exercise_sets.append(curr_set)
+          curr_set_number += 1
+          curr_exercise.sets.add(curr_set)
+        #curr_exercise.sets.add(curr_exercise_sets)
+        workout_exercises.append(curr_exercise)
+        workout.exercises.add(curr_exercise)
+        curr_exercise_number += 1
+      #return reverse_lazy('workout_detail', kwargs={'pk': workout.pk})
       # curr_user    = User.objects.get(username=request.user)
       # set1         = Set(set_number=1, weight=request.POST.get("E1S1-weight"), reps=request.POST.get("E1S1-reps"))
       # set1.save()
@@ -51,7 +73,7 @@ def workout_create_view(request):
       # obj, created = Workout.objects.get_or_create(name=request.POST.get("name"), user=curr_user)
       # obj.save()
       # obj.exercises.add(exercise1)
-      print(request.POST)
+      #print(request.POST)
 
 
   return render(request, 'workout/create_workout.html', context)
