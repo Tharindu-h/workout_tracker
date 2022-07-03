@@ -73,10 +73,10 @@ function getExerciseFrom(currExercise){
                             '<label>Set 1</label> ' +
                           '</div>' +
                           '<div class="col-3">' +
-                            '<input type="text" class="form-control" name="E'+ currExercise +'weight"></input>' +
+                            '<input type="text" class="form-control" name="E'+ currExercise +'-weight"></input>' +
                           '</div>' +
                           '<div class="col-3">' +
-                            '<input type="text" class="form-control" name="E'+ currExercise +'reps"></input>' +
+                            '<input type="text" class="form-control" name="E'+ currExercise +'-reps"></input>' +
                           '</div>' +
                           '<div class="col-2">' +
                             '<button type="button" class="btn btn-outline-danger removeSet">Remove Set' +

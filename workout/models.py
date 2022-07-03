@@ -23,7 +23,7 @@ class Workout(models.Model):
 		return f"Created {self.created}"
 
 	class Meta:
-		ordering = ['pk']
+		ordering = ['-created']
 
 
 class Exercise(models.Model):
