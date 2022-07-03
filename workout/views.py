@@ -39,7 +39,7 @@ def workout_create_view(request):
       curr_exercise_number = 1
       for e in request.POST.getlist("exercise"):
         curr_e_type     = ExerciseType.objects.get(name=e)
-        curr_exercise   = Exercise(exercise_number=1, exercise_type=curr_e_type, rpe=10)
+        curr_exercise   = Exercise(exercise_number=curr_exercise_number, exercise_type=curr_e_type, rpe=10)
         curr_exercise.save()
         curr_set_number = 1
         curr_exercise_sets = []
@@ -82,5 +82,6 @@ def workout_edit_view(request, pk):
     'exercises' : exercises,
     'object'    : obj
   }
-
+  if request.method == "POST":
+    print(request.POST)
   return render(request, 'workout/update_workout.html', context)
