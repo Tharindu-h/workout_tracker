@@ -2,7 +2,8 @@ from time import time
 from django.db import models
 from users.models import User
 from django.utils import timezone
-
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 
 class Workout(models.Model):
 	name      = models.CharField(verbose_name=("Name"), max_length=50)
@@ -23,7 +24,13 @@ class Workout(models.Model):
 		return f"Created {self.created}"
 
 	class Meta:
-		ordering = ['pk']
+		ordering = ['-created']
+
+@receiver(pre_delete, sender=Workout)
+def pre_save_receiver(sender, instance, **kwargs):
+  exercises = instance.exercises.all()
+  for e in exercises:
+    e.delete()
 
 
 class Exercise(models.Model):
@@ -38,6 +45,11 @@ class Exercise(models.Model):
 	class Meta:
 		ordering = ['exercise_number']
 
+@receiver(pre_delete, sender=Exercise)
+def pre_save_receiver(sender, instance, **kwargs):
+  sets = instance.sets.all()
+  for s in sets:
+    s.delete()
 
 class ExerciseType(models.Model):
 	name        = models.CharField(verbose_name=("Exercise Name"), max_length=50)
@@ -57,38 +69,3 @@ class Set(models.Model):
 
 	class Meta:
 		ordering = ['set_number']
-
-
-
-
-"""
-
-class Exercise(models.Model):
-  name        = models.CharField(max_length=70, verbose_name=('Name'))
-  description = models.CharField(max_length=256, blank=True, null=True, verbose_name=('Description'))
-
-  def __str__(self):
-    return self.name
-
-class Workout(models.Model):
-  name        = models.CharField(max_length=70, verbose_name=('Name'))
-  description = models.CharField(max_length=256, blank=True, null=True, verbose_name=('Description'))
-  dateTime    = models.DateTimeField()
-  exercises   = models.ManyToManyField('Exercise', related_name=('exercises'))
-  user        = models.ForeignKey(User, verbose_name=('User'), on_delete=models.CASCADE)
-
-  class Meta:
-    ordering = ['-dateTime']
-  
-  def __str__(self):
-    return self.name
-
-class Set(models.Model):
-  weight      = models.IntegerField(default=0, verbose_name=('Weight'))  
-  reps        = models.IntegerField(default=0, verbose_name=('Number of Reps'))
-  exercise    = models.ForeignKey(Exercise, on_delete=models.CASCADE)
-  workout     = models.ForeignKey(Workout, on_delete=models.CASCADE)
-
-  def __str__(self):
-    return self.workout.name + " " + self.exercise.name
-"""

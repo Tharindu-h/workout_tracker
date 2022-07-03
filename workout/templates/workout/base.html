@@ -11,6 +11,12 @@
     .navbar-brand{
       font-size : 35px
     }
+    label{
+      white-space: nowrap;
+    }
+    .btn-group button{
+      margin: 0 7px; 
+    }
   </style>
   <title>Workout Tracker</title>
 </head>
@@ -53,5 +59,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <footer class="page-footer">
     </footer> 
+    {% block js %} {% endblock js %}
   </body>
 </html>

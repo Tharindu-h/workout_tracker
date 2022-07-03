@@ -1,0 +1,90 @@
+{% extends "workout/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">New Workout</legend>
+      <div class="container">
+        <div class="row mt-2">
+          <div class="col-md">
+            <label>Workout Name</label>
+          </div>
+          <div class="col-md-10">
+            <input type="text" class="form-control" name="name" value="{{ object.name }}"></input>
+          </div>
+        </div>
+      </div>
+      {% for exercise in object.exercises.all %}
+        <div class="exercises">
+          <div class="container exercise" id="exercise{{ exercise.exercise_number }}">
+            <div class="row mt-4">
+              <div class="col-md">
+                <label>Exercise</label>
+              </div>
+              <div class="col-md-10" id="exercise_options">
+                <select name="exercise">
+                  <option value="{{ exercise.exercise_type.name }}">{{ exercise.exercise_type.name }}</option>
+                  {% for e in exercises %}
+                    {% if exercise.exercise_type.name != e.name %}
+                      <option value="{{ e.name }}">{{ e.name }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-2">
+              </div>
+              <div class="col-3">
+                <div class="d-flex justify-content-center">Weight</div>
+              </div>
+              <div class="col-3">
+                <div class="d-flex justify-content-center">Reps</div>
+              </div>
+            </div>
+            {% for set in exercise.sets.all %}
+              <div class="row set" id="set{{ set.set_number }}">
+                <div class="col-2">
+                  <label>Set {{ set.set_number }}</label> 
+                </div>
+                <div class="col-3">
+                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-weight" value="{{ set.weight}}"></input>
+                </div>
+                <div class="col-3">
+                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-reps" value="{{ set.reps }}"></input>
+                </div>
+                <div class="col-2">
+                  <button type="button" class="btn btn-outline-danger removeSet">Remove Set
+                  </button>
+                </div>
+              </div>
+            {% endfor %}
+            <div class="row mt-2 justify-content-start" id="addSetButton{{ exercise.exercise_number }}">
+              <div class="col-2"></div>
+              <div class="col-3">
+                <button type="button" class="btn btn-outline-success addSet">Add New Set</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      <hr>
+      <div class="container">
+        <button type="button" class="btn btn-outline-success addExercise">Add New Exercise</button>
+      </div>
+    </fieldset>
+    <div class="container">
+      <div class="form-group">
+        <button class="btn btn-outline-info" type="submit" name="save" value="save">Save</button>
+        <button class="btn btn-outline-info" type="submit" name="finish" value="finish">Finish</button>
+      </div>
+    </div>
+  </form>
+{% endblock content %}
+
+
+{% block js %}
+  <script src={% static 'workout/js/form.js' %}></script>
+{% endblock js %}

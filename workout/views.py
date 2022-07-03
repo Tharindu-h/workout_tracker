@@ -1,12 +1,10 @@
-import re
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.forms.models import modelformset_factory
+from django.http import HttpResponseForbidden
 from .models import *
-from .forms import WorkoutCreateForm#, SetCreateForm
 
 class WorkoutsOverView(LoginRequiredMixin, TemplateView):
 	template_name = 'workout/overview.html'
@@ -24,10 +22,6 @@ class WorkoutDetailsView(LoginRequiredMixin, DetailView):
 		return self.model.objects.filter(user__pk=self.request.user.id)
 
 
-# function based view might be a better option for create and edit views
-# I could use htmx to make ajax calls in the form, so when it gets created 
-# 
-
 @login_required
 def workout_create_view(request):
 
@@ -37,51 +31,36 @@ def workout_create_view(request):
   }
 
   if request.method == "POST":
-    if request.POST.get("save"):
-      curr_user    = User.objects.get(username=request.user)
-      set1         = Set(set_number=1, weight=request.POST.get("E1S1-weight"), reps=request.POST.get("E1S1-reps"))
-      set1.save()
-      print({"set1" : set1})
-      e1_type      = ExerciseType.objects.get(name=request.POST.get("exercise"))
-      print({"e1_type": e1_type})
-      exercise1    = Exercise(exercise_number=1, exercise_type=e1_type, rpe=10)
-      exercise1.save()
-      exercise1.sets.add(set1)
-      print({"exercise1": exercise1})
-      obj, created = Workout.objects.get_or_create(name=request.POST.get("name"), user=curr_user)
-      obj.save()
-      obj.exercises.add(exercise1)
-
-
-
-
-
-  return render(request, 'workout/create_workout.html', context)
-
-"""
-@login_required
-def workout_edit_view(request, pk=None):
-  obj     = get_object_or_404(Workout, pk=pk, user=request.user)
-  form    = WorkoutCreateForm(request.POST or None, instance=obj)
-  form_2  = SetCreateForm(request.POST or None)
-
-  # SetCreateFormSet = modelformset_factory(Set, form=SetCreateForm, extra=0)
-  # formset = SetCreateFormSet(request.POST or None)
-
-  context = {
-    'form'   : form,
-    'form_2' : form_2,
-    'object' : obj
-  }
-  
-  if form.is_valid() and form_2.is_valid():
-    form.save(commit=False)
-    form_2.save(commit=False)
-    print("form", form.cleaned_data)
-    print("form_2", form_2.cleaned_data)
+    if request.POST.get("save") or request.POST.get("finish"):
+      print(request.POST)
+      workout = Workout(name=request.POST.get("name"), user=User.objects.get(username=request.user))
+      workout.save()
+      workout_exercises   = [] 
+      curr_exercise_number = 1
+      for e in request.POST.getlist("exercise"):
+        curr_e_type     = ExerciseType.objects.get(name=e)
+        curr_exercise   = Exercise(exercise_number=curr_exercise_number, exercise_type=curr_e_type, rpe=10)
+        curr_exercise.save()
+        curr_set_number = 1
+        curr_exercise_sets = []
+        for s in request.POST.getlist(f"E{curr_exercise_number}-reps"):
+          print(request.POST.getlist(f"E{curr_exercise_number}-reps"))
+          curr_weight   = request.POST.getlist(f"E{curr_exercise_number}-weight")[curr_set_number - 1]
+          curr_set      = Set(set_number=curr_set_number, 
+                            weight=curr_weight, 
+                            reps=s)
+          curr_set.save()
+          curr_set_number += 1
+          curr_exercise.sets.add(curr_set)
+        workout_exercises.append(curr_exercise)
+        workout.exercises.add(curr_exercise)
+        curr_exercise_number += 1
+      if request.POST.get("save"):
+        context["object"] = workout
+        return redirect('workout_update', workout.pk)
+      return redirect('workout_detail', workout.pk)
 
   return render(request, 'workout/create_workout.html', context)
-"""
 
 class WorkoutDelete(DeleteView):
   model       = Workout
@@ -93,3 +72,21 @@ class WorkoutDelete(DeleteView):
       return True
     return False
 
+
+@login_required
+def workout_edit_view(request, pk):
+
+  obj             = Workout.objects.get(pk=pk)
+  if obj.user.pk != request.user.pk:
+    return HttpResponseForbidden()
+  
+  exercises = ExerciseType.objects.all()
+  context   = {
+    'exercises' : exercises,
+    'object'    : obj
+  }
+  if request.method == "POST":
+    print(request.POST)
+    if request.POST.get("finish"):
+      return redirect('workout_detail', obj.pk)
+  return render(request, 'workout/update_workout.html', context)
