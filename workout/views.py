@@ -3,9 +3,8 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.forms.models import modelformset_factory
+from django.http import HttpResponseForbidden
 from .models import *
-from .forms import WorkoutCreateForm#, SetCreateForm
 
 class WorkoutsOverView(LoginRequiredMixin, TemplateView):
 	template_name = 'workout/overview.html'
@@ -51,41 +50,14 @@ def workout_create_view(request):
                             weight=curr_weight, 
                             reps=s)
           curr_set.save()
-          #curr_exercise_sets.append(curr_set)
           curr_set_number += 1
           curr_exercise.sets.add(curr_set)
-        #curr_exercise.sets.add(curr_exercise_sets)
         workout_exercises.append(curr_exercise)
         workout.exercises.add(curr_exercise)
         curr_exercise_number += 1
       return redirect('workout_detail', workout.pk)
 
   return render(request, 'workout/create_workout.html', context)
-
-"""
-@login_required
-def workout_edit_view(request, pk=None):
-  obj     = get_object_or_404(Workout, pk=pk, user=request.user)
-  form    = WorkoutCreateForm(request.POST or None, instance=obj)
-  form_2  = SetCreateForm(request.POST or None)
-
-  # SetCreateFormSet = modelformset_factory(Set, form=SetCreateForm, extra=0)
-  # formset = SetCreateFormSet(request.POST or None)
-
-  context = {
-    'form'   : form,
-    'form_2' : form_2,
-    'object' : obj
-  }
-  
-  if form.is_valid() and form_2.is_valid():
-    form.save(commit=False)
-    form_2.save(commit=False)
-    print("form", form.cleaned_data)
-    print("form_2", form_2.cleaned_data)
-
-  return render(request, 'workout/create_workout.html', context)
-"""
 
 class WorkoutDelete(DeleteView):
   model       = Workout
@@ -97,3 +69,18 @@ class WorkoutDelete(DeleteView):
       return True
     return False
 
+
+@login_required
+def workout_edit_view(request, pk):
+
+  obj       = Workout.objects.get(pk=pk)
+  if obj.user.pk != request.user.pk:
+    return HttpResponseForbidden()
+  
+  exercises = ExerciseType.objects.all()
+  context = {
+    'exercises' : exercises,
+    'object'    : obj
+  }
+
+  return render(request, 'workout/update_workout.html', context)
