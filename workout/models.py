@@ -2,7 +2,8 @@ from time import time
 from django.db import models
 from users.models import User
 from django.utils import timezone
-
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 
 class Workout(models.Model):
 	name      = models.CharField(verbose_name=("Name"), max_length=50)
@@ -25,6 +26,12 @@ class Workout(models.Model):
 	class Meta:
 		ordering = ['-created']
 
+@receiver(pre_delete, sender=Workout)
+def pre_save_receiver(sender, instance, **kwargs):
+  exercises = instance.exercises.all()
+  for e in exercises:
+    e.delete()
+
 
 class Exercise(models.Model):
 	exercise_number = models.IntegerField(verbose_name=("Exercise Number"))
@@ -38,6 +45,11 @@ class Exercise(models.Model):
 	class Meta:
 		ordering = ['exercise_number']
 
+@receiver(pre_delete, sender=Exercise)
+def pre_save_receiver(sender, instance, **kwargs):
+  sets = instance.sets.all()
+  for s in sets:
+    s.delete()
 
 class ExerciseType(models.Model):
 	name        = models.CharField(verbose_name=("Exercise Name"), max_length=50)
