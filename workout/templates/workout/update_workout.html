@@ -18,7 +18,7 @@
       </div>
       {% for exercise in object.exercises.all %}
         <div class="exercises">
-          <div class="container exercise" id="exercise1">
+          <div class="container exercise" id="exercise{{ exercise.exercise_number }}">
             <div class="row mt-4">
               <div class="col-md">
                 <label>Exercise</label>
@@ -45,15 +45,15 @@
               </div>
             </div>
             {% for set in exercise.sets.all %}
-              <div class="row set" id="set1">
+              <div class="row set" id="set{{ set.set_number }}">
                 <div class="col-2">
                   <label>Set {{ set.set_number }}</label> 
                 </div>
                 <div class="col-3">
-                  <input type="text" class="form-control" name="E1-weight" value="{{ set.weight}}"></input>
+                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-weight" value="{{ set.weight}}"></input>
                 </div>
                 <div class="col-3">
-                  <input type="text" class="form-control" name="E1-reps" value="{{ set.reps }}"></input>
+                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-reps" value="{{ set.reps }}"></input>
                 </div>
                 <div class="col-2">
                   <button type="button" class="btn btn-outline-danger removeSet">Remove Set
@@ -61,7 +61,7 @@
                 </div>
               </div>
             {% endfor %}
-            <div class="row mt-2 justify-content-start" id="addSetButton1">
+            <div class="row mt-2 justify-content-start" id="addSetButton{{ exercise.exercise_number }}">
               <div class="col-2"></div>
               <div class="col-3">
                 <button type="button" class="btn btn-outline-success addSet">Add New Set</button>
