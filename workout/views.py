@@ -31,7 +31,7 @@ def workout_create_view(request):
   }
 
   if request.method == "POST":
-    if request.POST.get("save"):
+    if request.POST.get("save") or request.POST.get("finish"):
       print(request.POST)
       workout = Workout(name=request.POST.get("name"), user=User.objects.get(username=request.user))
       workout.save()
@@ -55,6 +55,9 @@ def workout_create_view(request):
         workout_exercises.append(curr_exercise)
         workout.exercises.add(curr_exercise)
         curr_exercise_number += 1
+      if request.POST.get("save"):
+        context["object"] = workout
+        return redirect('workout_update', workout.pk)
       return redirect('workout_detail', workout.pk)
 
   return render(request, 'workout/create_workout.html', context)
@@ -73,15 +76,17 @@ class WorkoutDelete(DeleteView):
 @login_required
 def workout_edit_view(request, pk):
 
-  obj       = Workout.objects.get(pk=pk)
+  obj             = Workout.objects.get(pk=pk)
   if obj.user.pk != request.user.pk:
     return HttpResponseForbidden()
   
   exercises = ExerciseType.objects.all()
-  context = {
+  context   = {
     'exercises' : exercises,
     'object'    : obj
   }
   if request.method == "POST":
     print(request.POST)
+    if request.POST.get("finish"):
+      return redirect('workout_detail', obj.pk)
   return render(request, 'workout/update_workout.html', context)
