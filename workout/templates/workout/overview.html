@@ -7,7 +7,7 @@
     <a class="btn btn-primary btn-block btn-lg" href="{% url 'workout_create' %}">+ Start Workout</a>
   </div>
   {% for workout in workouts %}
-  <div class="container" style="padding-top: 30px">
+  <div class="container mt-4">
     <div class="card" style="">
       <div class="card-body">
         <h5 class="card-title font-weight-bold">{{ workout.name}}</h5>
