@@ -1,14 +1,19 @@
-function cloneSetForm(id){
-  currSet = document.querySelectorAll(`#${id} .set`).length;
-  console.log(id.slice(id.length -1));
-  document.getElementById(`addSetButton${id.slice(id.length -1)}`).insertAdjacentHTML("beforebegin", getSetForm(currSet + 1, parseInt(id.slice(id.length -1))));
-}
-
+// reference to a list
+const exercises = document.querySelector('.exercises');
+// add a single listener on list item
+exercises.addEventListener('click', removeClickHandler);
+const exerciseOptions = document.getElementById('exercise_options');
 const addExercise = document.querySelector(".addExercise");
 addExercise.addEventListener("click", cloneExerciseForm);
 
+function cloneSetForm(id){
+  let currSet = document.querySelectorAll(`#${id} .set`).length;
+  let currExercise = document.querySelectorAll('.exercises .exercise').length;
+  document.getElementById(`addSetButton${id.slice(id.length -1)}`).insertAdjacentHTML("beforebegin", getSetForm(currExercise, currSet + 1, parseInt(id.slice(id.length -1))));
+}
+
 function cloneExerciseForm(){
-  currExercise = document.querySelectorAll('.exercises .exercise').length;
+  let currExercise = document.querySelectorAll('.exercises .exercise').length;
   document.querySelector('.exercises').insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1));
 }
 
@@ -21,16 +26,18 @@ function removeClickHandler(e) {
   }
 }
 
-// reference to a list
-const exercises = document.querySelector('.exercises');
-// add a single listener on list item
-exercises.addEventListener('click', removeClickHandler);
+function validateForm(){
+  let exercises = document.querySelectorAll('.exercises .set');
+  console.log(exercises);
+  let test =  document.forms["workoutCreationForm"]["E1-reps"].value;
+  console.log(test);
 
-const exerciseOptions = document.getElementById('exercise_options');
+  return true;//false;
+}
 
 
-function getSetForm(currSet, id){
-  let setForm = '<div class="row set" id="set' + currSet +'">'+
+function getSetForm(currExercise, currSet, id){
+  let setForm = '<div class="row set" id="'+ 'e' + currExercise + '-' + 'set' + currSet +'">'+
                     '<div class="col-2">'+
                       '<label>Set ' + currSet + '</label>'+
                     '</div>'+
@@ -68,7 +75,7 @@ function getExerciseFrom(currExercise){
                             '<div class="d-flex justify-content-center">Reps</div>' +
                           '</div>' +
                         '</div>' +
-                        '<div class="row set" id="set1">' +
+                        '<div class="row set" id="e'+ currExercise + '-' +'set1">' +
                           '<div class="col-2">' +
                             '<label>Set 1</label> ' +
                           '</div>' +

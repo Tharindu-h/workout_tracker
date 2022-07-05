@@ -2,7 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-  <form method="POST">
+  <form method="POST" name="workoutCreationForm" onsubmit="return validateForm()">
     {% csrf_token %}
     <fieldset class="form-group">
       <legend class="border-bottom mb-4">New Workout</legend>
@@ -45,7 +45,7 @@
               </div>
             </div>
             {% for set in exercise.sets.all %}
-              <div class="row set" id="set{{ set.set_number }}">
+              <div class="row set" id="e{{ exercise.exercise_number }}-set{{ set.set_number }}">
                 <div class="col-2">
                   <label>Set {{ set.set_number }}</label> 
                 </div>
