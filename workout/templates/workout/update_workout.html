@@ -16,15 +16,15 @@
           </div>
         </div>
       </div>
-      {% for exercise in object.exercises.all %}
-        <div class="exercises">
+      <div class="exercises">
+        {% for exercise in object.exercises.all %}
           <div class="container exercise" id="exercise{{ exercise.exercise_number }}">
             <div class="row mt-4">
               <div class="col-md">
                 <label>Exercise</label>
               </div>
               <div class="col-md-10" id="exercise_options">
-                <select name="exercise">
+                <select name="exercise" id="select-e{{ exercise.exercise_number }}">
                   <option value="{{ exercise.exercise_type.name }}">{{ exercise.exercise_type.name }}</option>
                   {% for e in exercises %}
                     {% if exercise.exercise_type.name != e.name %}
@@ -50,10 +50,10 @@
                   <label>Set {{ set.set_number }}</label> 
                 </div>
                 <div class="col-3">
-                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-weight" value="{{ set.weight}}"></input>
+                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-weight" value="{{ set.weight}}" id="e{{ exercise.exercise_number }}-set{{ set.set_number }}-weight"></input>
                 </div>
                 <div class="col-3">
-                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-reps" value="{{ set.reps }}"></input>
+                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-reps" value="{{ set.reps }}" id="e{{ exercise.exercise_number }}-set{{ set.set_number }}-reps"></input>
                 </div>
                 <div class="col-2">
                   <button type="button" class="btn btn-outline-danger removeSet">Remove Set
@@ -68,8 +68,8 @@
               </div>
             </div>
           </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+      </div>
       <hr>
       <div class="container">
         <button type="button" class="btn btn-outline-success addExercise">Add New Exercise</button>

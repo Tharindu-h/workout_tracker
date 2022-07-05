@@ -23,7 +23,7 @@
               <label>Exercise</label>
             </div>
             <div class="col-md-10" id="exercise_options">
-              <select name="exercise">
+              <select name="exercise" id="select-e1">
                 <option value="----">----</option>
                 {% for exercise in exercises %}
                   <option value="{{ exercise.name }}">{{ exercise.name }}</option>
@@ -46,10 +46,10 @@
               <label>Set 1</label> 
             </div>
             <div class="col-3">
-              <input type="text" class="form-control" name="E1-weight"></input>
+              <input type="text" class="form-control" name="E1-weight" id="e1-set1-weight"></input>
             </div>
             <div class="col-3">
-              <input type="text" class="form-control" name="E1-reps"></input>
+              <input type="text" class="form-control" name="E1-reps" id="e1-set1-reps"></input>
             </div>
             <div class="col-2">
               <button type="button" class="btn btn-outline-danger removeSet">Remove Set
