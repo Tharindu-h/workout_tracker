@@ -9,7 +9,7 @@ addExercise.addEventListener("click", cloneExerciseForm);
 function cloneSetForm(id){
   let currSet = document.querySelectorAll(`#${id} .set`).length;
   let currExercise = document.querySelectorAll('.exercises .exercise').length;
-  document.getElementById(`addSetButton${id.slice(id.length -1)}`).insertAdjacentHTML("beforebegin", getSetForm(currExercise, currSet + 1, parseInt(id.slice(id.length -1))));
+  document.getElementById(`addSetButton${id.slice(id.length -1)}`).insertAdjacentHTML("beforebegin", getSetForm(parseInt(id.slice(id.length -1)), currSet + 1));
 }
 
 function cloneExerciseForm(){
@@ -27,12 +27,22 @@ function removeClickHandler(e) {
 }
 
 function validateForm(){
-  let exercises = document.querySelectorAll('.exercises .set');
-  console.log(exercises);
-  let test =  document.forms["workoutCreationForm"]["E1-reps"].value;
-  console.log(test);
+  let numExercises = document.querySelectorAll('.exercises .exercise').length;
+  for (let e = 1; e <= numExercises; e++){
+    if (document.getElementById(`select-e${e}`).value == "----"){
+      return false;
+    }
+    numSets = document.querySelectorAll(`#exercise${e} .set`).length;
+    for (let s = 1; s <= numSets; s++){
+      let currReps   = document.getElementById(`e${e}-set${s}-reps`).value;
+      let currWeight = document.getElementById(`e${e}-set${s}-weight`).value;
+      if (currReps == "" || currWeight == ""){
+        return false;
+      }
+    }
+  }
 
-  return true;//false;
+  return true;
 }
 
 
@@ -42,10 +52,10 @@ function getSetForm(currExercise, currSet, id){
                       '<label>Set ' + currSet + '</label>'+
                     '</div>'+
                     '<div class="col-3">'+
-                      '<input type="text" class="form-control" name="E'+ id +'-weight"></input>'+
+                      '<input type="text" class="form-control" name="E'+ currExercise +'-weight" id="e'+ currExercise +'-set'+ currSet +'-weight"></input>'+
                     '</div>'+
                     '<div class="col-3">'+
-                      '<input type="text" class="form-control" name="E'+ id +'-reps"></input>'+
+                      '<input type="text" class="form-control" name="E'+ currExercise +'-reps" id="e'+ currExercise +'-set'+ currSet +'-reps"></input>'+
                     '</div>'+
                     '<div class="col-2">'+
                       '<button type="button" class="btn btn-outline-danger removeSet">Remove Set'+
@@ -56,13 +66,22 @@ function getSetForm(currExercise, currSet, id){
 }
 
 function getExerciseFrom(currExercise){
+  
+  let url = window.location.href.split("/");
+  let options = exerciseOptions.innerHTML.replace('id="select-e1"',`id="select-e${currExercise}"`)
+  if (url[url.length -1] != "create"){
+    let toBeReplaced = `id="select-e${currExercise}">
+    <option value="----">----</option>`;
+    options = exerciseOptions.innerHTML.replace('id="select-e1">',toBeReplaced);
+  }
+
   let exerciseForm =  '<div class="container exercise" id="exercise' + currExercise +'">' +
                         '<div class="row mt-4">' +
                           '<div class="col-md">' +
                             '<label>Exercise</label>' +
                           '</div>' +
                           '<div class="col-md-10">' +
-                          exerciseOptions.innerHTML +
+                          options +
                           '</div>' +
                         '</div>' +
                         '<div class="row mt-4">' +
@@ -80,10 +99,10 @@ function getExerciseFrom(currExercise){
                             '<label>Set 1</label> ' +
                           '</div>' +
                           '<div class="col-3">' +
-                            '<input type="text" class="form-control" name="E'+ currExercise +'-weight"></input>' +
+                            '<input type="text" class="form-control" name="E'+ currExercise +'-weight" id="e'+ currExercise +'-set1-weight"></input>' +
                           '</div>' +
                           '<div class="col-3">' +
-                            '<input type="text" class="form-control" name="E'+ currExercise +'-reps"></input>' +
+                            '<input type="text" class="form-control" name="E'+ currExercise +'-reps" id="e'+ currExercise +'-set1-reps"></input>' +
                           '</div>' +
                           '<div class="col-2">' +
                             '<button type="button" class="btn btn-outline-danger removeSet">Remove Set' +
