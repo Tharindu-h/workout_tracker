@@ -27,6 +27,7 @@ function removeClickHandler(e) {
 }
 
 function validateForm(){
+  let regExp = /^\d+$/;
   let numExercises = document.querySelectorAll('.exercises .exercise').length;
   for (let e = 1; e <= numExercises; e++){
     if (document.getElementById(`select-e${e}`).value == "----"){
@@ -36,7 +37,7 @@ function validateForm(){
     for (let s = 1; s <= numSets; s++){
       let currReps   = document.getElementById(`e${e}-set${s}-reps`).value;
       let currWeight = document.getElementById(`e${e}-set${s}-weight`).value;
-      if (currReps == "" || currWeight == ""){
+      if (currReps == "" || currWeight == "" || !regExp.test(currReps) || !regExp.test(currWeight)){
         return false;
       }
     }
