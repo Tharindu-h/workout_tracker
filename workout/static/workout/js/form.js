@@ -24,6 +24,9 @@ function removeClickHandler(e) {
   if (e.target.matches('.addSet')) {
     cloneSetForm(e.target.parentNode.parentNode.parentNode.id);
   }
+  if (e.target.matches('.removeExercise')) {
+    e.target.parentNode.parentNode.parentNode.remove();
+  }
 }
 
 function validateForm(){
