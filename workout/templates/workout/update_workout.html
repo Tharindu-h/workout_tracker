@@ -18,6 +18,7 @@
       </div>
       <div class="exercises">
         {% for exercise in object.exercises.all %}
+          <hr>
           <div class="container exercise" id="exercise{{ exercise.exercise_number }}">
             <div class="row mt-4">
               <div class="col-md">

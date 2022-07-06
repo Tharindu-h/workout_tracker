@@ -67,16 +67,17 @@ function getSetForm(currExercise, currSet, id){
 }
 
 function getExerciseFrom(currExercise){
-  
   let url = window.location.href.split("/");
-  let options = exerciseOptions.innerHTML.replace('id="select-e1"',`id="select-e${currExercise}"`)
+  let options = exerciseOptions.innerHTML.replace('id="select-e1"',`id="select-e${currExercise}"`);
   if (url[url.length -1] != "create"){
     let toBeReplaced = `id="select-e${currExercise}">
     <option value="----">----</option>`;
+    console.log("here");
     options = exerciseOptions.innerHTML.replace('id="select-e1">',toBeReplaced);
   }
 
-  let exerciseForm =  '<div class="container exercise" id="exercise' + currExercise +'">' +
+  let exerciseForm =  '<hr>' + 
+                      '<div class="container exercise" id="exercise' + currExercise +'">' +
                         '<div class="row mt-4">' +
                           '<div class="col-md">' +
                             '<label>Exercise</label>' +
