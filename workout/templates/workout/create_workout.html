@@ -8,10 +8,10 @@
       <legend class="border-bottom mb-4">New Workout</legend>
       <div class="container">
         <div class="row mt-2">
-          <div class="col-md">
+          <div class="col-4">
             <label>Workout Name</label>
           </div>
-          <div class="col-md-10">
+          <div class="col-8">
             <input type="text" class="form-control" name="name"></input>
           </div>
         </div>
@@ -19,12 +19,12 @@
       <div class="exercises">
         <hr>
         <div class="container exercise" id="exercise1">
-          <div class="row mt-4">
-            <div class="col-md">
+          <div class="row justify-content-between mt-4">
+            <div class="col">
               <label>Exercise</label>
             </div>
-            <div class="col-md-10" id="exercise_options">
-              <select name="exercise" id="select-e1">
+            <div class="col" id="exercise_options">
+              <select name="exercise" class="select-exercise" id="select-e1">
                 <option value="----">----</option>
                 {% for exercise in exercises %}
                   <option value="{{ exercise.name }}">{{ exercise.name }}</option>
@@ -82,4 +82,11 @@
 
 {% block js %}
   <script src={% static 'workout/js/form.js' %}></script>
+  <script>
+    $(document).ready(function() {
+      $('.select-exercise').select2({
+        placeholder: 'Select an option'
+      });
+    });
+  </script>
 {% endblock js %}

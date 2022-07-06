@@ -8,10 +8,10 @@
       <legend class="border-bottom mb-4">New Workout</legend>
       <div class="container">
         <div class="row mt-2">
-          <div class="col-md">
+          <div class="col-4">
             <label>Workout Name</label>
           </div>
-          <div class="col-md-10">
+          <div class="col-8">
             <input type="text" class="form-control" name="name" value="{{ object.name }}"></input>
           </div>
         </div>
@@ -20,12 +20,12 @@
         {% for exercise in object.exercises.all %}
           <hr>
           <div class="container exercise" id="exercise{{ exercise.exercise_number }}">
-            <div class="row mt-4">
-              <div class="col-md">
+            <div class="row justify-content-between mt-4">
+              <div class="col">
                 <label>Exercise</label>
               </div>
-              <div class="col-md-10" id="exercise_options">
-                <select name="exercise" id="select-e{{ exercise.exercise_number }}">
+              <div class="col" id="exercise_options">
+                <select name="exercise" class="select-exercise" id="select-e{{ exercise.exercise_number }}" style="width:240px">
                   <option value="{{ exercise.exercise_type.name }}">{{ exercise.exercise_type.name }}</option>
                   {% for e in exercises %}
                     {% if exercise.exercise_type.name != e.name %}
@@ -88,4 +88,11 @@
 
 {% block js %}
   <script src={% static 'workout/js/form.js' %}></script>
+  <script>
+    $(document).ready(function() {
+      $('.select-exercise').select2({
+        placeholder: 'Select an option'
+      });
+    });
+  </script>
 {% endblock js %}
