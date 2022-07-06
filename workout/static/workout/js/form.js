@@ -78,11 +78,11 @@ function getExerciseFrom(currExercise){
 
   let exerciseForm =  '<hr>' + 
                       '<div class="container exercise" id="exercise' + currExercise +'">' +
-                        '<div class="row mt-4">' +
-                          '<div class="col-md">' +
+                        '<div class="row justify-content-between mt-4">' +
+                          '<div class="col">' +
                             '<label>Exercise</label>' +
                           '</div>' +
-                          '<div class="col-md-10">' +
+                          '<div class="col">' +
                           options +
                           '</div>' +
                         '</div>' +

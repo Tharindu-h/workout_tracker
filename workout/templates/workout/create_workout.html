@@ -24,7 +24,7 @@
               <label>Exercise</label>
             </div>
             <div class="col" id="exercise_options">
-              <select name="exercise" class="select-exercise" id="select-e1">
+              <select name="exercise" style="width:240px" class="select-exercise" id="select-e1">
                 <option value="----">----</option>
                 {% for exercise in exercises %}
                   <option value="{{ exercise.name }}">{{ exercise.name }}</option>
@@ -82,11 +82,4 @@
 
 {% block js %}
   <script src={% static 'workout/js/form.js' %}></script>
-  <script>
-    $(document).ready(function() {
-      $('.select-exercise').select2({
-        placeholder: 'Select an option'
-      });
-    });
-  </script>
 {% endblock js %}

@@ -25,7 +25,7 @@
                 <label>Exercise</label>
               </div>
               <div class="col" id="exercise_options">
-                <select name="exercise" class="select-exercise" id="select-e{{ exercise.exercise_number }}" style="width:240px">
+                <select name="exercise" class="select-exercise" style="width:240px" id="select-e{{ exercise.exercise_number }}">
                   <option value="{{ exercise.exercise_type.name }}">{{ exercise.exercise_type.name }}</option>
                   {% for e in exercises %}
                     {% if exercise.exercise_type.name != e.name %}
@@ -88,11 +88,4 @@
 
 {% block js %}
   <script src={% static 'workout/js/form.js' %}></script>
-  <script>
-    $(document).ready(function() {
-      $('.select-exercise').select2({
-        placeholder: 'Select an option'
-      });
-    });
-  </script>
 {% endblock js %}
