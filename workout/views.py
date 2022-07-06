@@ -4,6 +4,7 @@ from django.views.generic import DetailView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
+from django.contrib import messages
 from .models import *
 
 class WorkoutsOverView(LoginRequiredMixin, TemplateView):
@@ -56,6 +57,7 @@ def workout_create_view(request):
         curr_exercise_number += 1
       if request.POST.get("save"):
         context["object"] = workout
+        messages.success(request, 'Saved!')
         return redirect('workout_update', workout.pk)
       return redirect('workout_detail', workout.pk)
 
@@ -112,6 +114,7 @@ def workout_edit_view(request, pk):
         curr_exercise_number += 1
       if request.POST.get("save"):
         context["object"] = obj
+        messages.success(request, 'Saved!')
         return redirect('workout_update', obj.pk)
       return redirect('workout_detail', obj.pk)
 
