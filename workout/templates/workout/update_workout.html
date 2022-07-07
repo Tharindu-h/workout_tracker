@@ -29,10 +29,13 @@
                   <option value="{{ exercise.exercise_type.name }}">{{ exercise.exercise_type.name }}</option>
                   {% for e in exercises %}
                     {% if exercise.exercise_type.name != e.name %}
-                      <option value="{{ e.name }}">{{ e.name }}</option>
+                      <option value="{{ e.name }}" class="options">{{ e.name }}</option>
                     {% endif %}
                   {% endfor %}
                 </select>
+                <div class="search-box">
+                  <input type="text" class="search-box" placeholder="Start Typing..." />
+                </div>
               </div>
             </div>
             <div class="row mt-4">

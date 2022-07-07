@@ -1,8 +1,9 @@
 // reference to a list
 const exercises = document.querySelector('.exercises');
 // add a single listener on list item
-exercises.addEventListener('click', removeClickHandler);
-const exerciseOptions = document.getElementById('exercise_options');
+exercises.addEventListener('click', eventDelegationForClickEvents);
+exercises.addEventListener('keyup', eventDelegationForSearchBox);
+const exerciseOptions = document.getElementById('exercise_options'); //I should build an api for this instead
 const addExercise = document.querySelector(".addExercise");
 addExercise.addEventListener("click", cloneExerciseForm);
 
@@ -17,7 +18,7 @@ function cloneExerciseForm(){
   document.querySelector('.exercises').insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1));
 }
 
-function removeClickHandler(e) {
+function eventDelegationForClickEvents(e) {
   if (e.target.matches('.removeSet')) {
     e.target.parentNode.parentNode.remove();
   }
@@ -122,4 +123,25 @@ function getExerciseFrom(currExercise){
                         '</div>' +
                       '</div>';
   return exerciseForm;
+}
+
+function eventDelegationForSearchBox(e) {
+  if (e.target.matches('.search-box')){
+    console.log(e.target.parentNode.parentNode.parentNode.parentNode);
+    targetDiv = e.target.parentNode.parentNode.parentNode.parentNode;
+    let optionsList = targetDiv.querySelectorAll(".options");
+    filterList(optionsList, e.target.value);
+  }
+}
+function filterList(options, searchTerm){
+  for (let item = 0; item < options.length; item++){
+    let itemName = options[item].innerText;
+    itemName = itemName.toLowerCase();
+    if (itemName.indexOf(searchTerm.toLowerCase()) != -1){
+      options[item].style.display = "block";
+    }
+    else{
+      options[item].style.display = "none";
+    }
+  }
 }
