@@ -18,8 +18,11 @@
       margin: 0 7px; 
     }
     #footer {
-      bottom: 0;
-      width: 100%;
+      position: sticky;
+      top: 100%
+    }
+    body{
+      min-height: 100vh;
     }
   </style>
   <title>Workout Tracker</title>
@@ -67,7 +70,6 @@
       <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
         Workout Tracker
       </div>
-      <!-- Copyright -->
     </footer>
     {% block js %} {% endblock js %}
   </body>
