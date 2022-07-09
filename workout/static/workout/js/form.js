@@ -7,16 +7,30 @@ const exerciseOptions = document.getElementById('exercise_options'); //I should 
 const addExercise = document.querySelector(".addExercise");
 addExercise.addEventListener("click", cloneExerciseForm);
 
+function cloneExerciseForm(){
+  fetch('/api/workout/exercise-types')
+  .then(response => response.json())
+  .then(function(data){
+    let options = "";
+    for (let option = 0; option < data.length; option++){
+      options +=`<option value="${data[option].name}" class="options">${data[option].name}</option>`;
+    }
+    let currExercise = document.querySelectorAll('.exercises .exercise').length;
+    document.querySelector('.exercises').insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1, options));
+  });
+}
+
+
 function cloneSetForm(id){
   let currSet = document.querySelectorAll(`#${id} .set`).length;
   let currExercise = document.querySelectorAll('.exercises .exercise').length;
   document.getElementById(`addSetButton${id.slice(id.length -1)}`).insertAdjacentHTML("beforebegin", getSetForm(parseInt(id.slice(id.length -1)), currSet + 1));
 }
 
-function cloneExerciseForm(){
-  let currExercise = document.querySelectorAll('.exercises .exercise').length;
-  document.querySelector('.exercises').insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1));
-}
+// function cloneExerciseForm(){
+//   let currExercise = document.querySelectorAll('.exercises .exercise').length;
+//   document.querySelector('.exercises').insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1));
+// }
 
 function eventDelegationForClickEvents(e) {
   if (e.target.matches('.removeSet')) {
@@ -70,15 +84,7 @@ function getSetForm(currExercise, currSet, id){
     return setForm;
 }
 
-function getExerciseFrom(currExercise){
-  let url = window.location.href.split("/");
-  let options = exerciseOptions.innerHTML.replace('id="select-e1"',`id="select-e${currExercise}"`);
-  if (url[url.length -1] != "create"){
-    let toBeReplaced = `id="select-e${currExercise}">
-    <option value="----">----</option>`;
-    console.log("here");
-    options = exerciseOptions.innerHTML.replace('id="select-e1">',toBeReplaced);
-  }
+function getExerciseFrom(currExercise, options){
 
   let exerciseForm =  '<hr>' + 
                       '<div class="container exercise" id="exercise' + currExercise +'">' +
@@ -86,8 +92,11 @@ function getExerciseFrom(currExercise){
                           '<div class="col">' +
                             '<label>Exercise</label>' +
                           '</div>' +
-                          '<div class="col">' +
-                          options +
+                          '<div class="col" id="exercise_options'+ currExercise +'">' +
+                            '<select name="exercise" style="width:240px" class="select-exercise" id="select-e'+ currExercise +'">' +
+                              '<option value="----">----</option>' +
+                              options +
+                            '</select>' +
                           '</div>' +
                         '</div>' +
                         '<div class="row mt-4">' +
