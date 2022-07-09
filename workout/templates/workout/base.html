@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,24 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-  <style>
-    .navbar-brand{
-      font-size : 35px
-    }
-    label{
-      white-space: nowrap;
-    }
-    .btn-group button{
-      margin: 0 7px; 
-    }
-    #footer {
-      position: sticky;
-      top: 100%
-    }
-    body{
-      min-height: 100vh;
-    }
-  </style>
+  <link rel="stylesheet" href="{% static 'workout/css/base.css' %}">
   <title>Workout Tracker</title>
 </head>
 
@@ -63,7 +47,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <footer class="bg-dark text-center text-white mt-4" id="footer">
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      <div class="text-center p-3 footer-text">
         Workout Tracker
       </div>
     </footer>

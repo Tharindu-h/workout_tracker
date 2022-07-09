@@ -2,7 +2,7 @@
 {% load index %}
 {% block content %}
   {% if object.name %}
-    <h3 style="padding-left: 30px">{{ object.name }}</h3>
+    <h3 class="details-obj-name">{{ object.name }}</h3>
   {% endif %}
   {% for e in object.exercises.all %}
     <div class="container">

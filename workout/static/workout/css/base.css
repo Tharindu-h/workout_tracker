@@ -1,0 +1,32 @@
+.navbar-brand {
+  font-size : 35px;
+}
+
+label {
+  white-space: nowrap;
+}
+
+.btn-group button {
+  margin: 0 7px; 
+}
+
+#footer {
+  position: sticky;
+  top: 100%;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.footer-text {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.select-exercise {
+  width: 240px;
+}
+
+.details-obj-name {
+  padding-left: 17px
+}

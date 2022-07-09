@@ -24,7 +24,7 @@
               <label>Exercise</label>
             </div>
             <div class="col" id="exercise_options">
-              <select name="exercise" style="width:240px" class="select-exercise" id="select-e1">
+              <select name="exercise" class="select-exercise" id="select-e1">
                 <option value="----">----</option>
                 {% for exercise in exercises %}
                   <option value="{{ exercise.name }}" class="options">{{ exercise.name }}</option>
