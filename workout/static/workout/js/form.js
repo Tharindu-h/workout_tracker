@@ -1,46 +1,25 @@
-// reference to a list
 const exercises = document.querySelector('.exercises');
-// add a single listener on list item
-exercises.addEventListener('click', eventDelegationForClickEvents);
-const exerciseOptions = document.getElementById('exercise_options'); 
 const addExercise = document.querySelector(".addExercise");
+exercises.addEventListener('click', eventDelegationForClickEvents);
 addExercise.addEventListener("click", cloneExerciseForm);
 
-// apply select2 to all existing exercise select boxes on page load
-let numInitialExercises = document.querySelectorAll('.exercise').length;
-for (let i = 1; i <= numInitialExercises; i++){
-  $(document).ready(function(){
-    $(`#select-e${i}`).select2();
-  });
-}
+addSelect2();
 
-function cloneExerciseForm(){
-  fetch('/api/workout/exercise-types')
-  .then(response => response.json())
-  .then(function(data){
-    let options = "";
-    for (let option = 0; option < data.length; option++){
-      options +=`<option value="${data[option].name}" class="options">${data[option].name}</option>`;
-    }
-    let currExercise = document.querySelectorAll('.exercises .exercise').length;
-    document.querySelector('.exercises').insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1, options));
+// apply select2 to all existing exercise select boxes
+function addSelect2(){
+  let numInitialExercises = document.querySelectorAll('.exercise').length;
+  for (let i = 1; i <= numInitialExercises; i++){
     $(document).ready(function(){
-      $(`#select-e${currExercise + 1}`).select2();
+      $(`#select-e${i}`).select2();
     });
-  });
+    $(`#select-e${i}`).on("change", checkSelectedExercise);
+  }
 }
-
-
-function cloneSetForm(id){
-  let currSet = document.querySelectorAll(`#${id} .set`).length;
-  let currExercise = document.querySelectorAll('.exercises .exercise').length;
-  document.getElementById(`addSetButton${id.slice(id.length -1)}`).insertAdjacentHTML("beforebegin", getSetForm(parseInt(id.slice(id.length -1)), currSet + 1));
+function checkSelectedExercise(e){
+  if (e.target.value == "Other") {
+    console.log("other");
+  }
 }
-
-// function cloneExerciseForm(){
-//   let currExercise = document.querySelectorAll('.exercises .exercise').length;
-//   document.querySelector('.exercises').insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1));
-// }
 
 function eventDelegationForClickEvents(e) {
   if (e.target.matches('.removeSet')) {
@@ -53,6 +32,29 @@ function eventDelegationForClickEvents(e) {
     e.target.parentNode.parentNode.parentNode.remove();
   }
 }
+
+function cloneExerciseForm(){
+  fetch('/api/workout/exercise-types')
+  .then(response => response.json())
+  .then(function(data){
+    let options = "";
+    for (let option = 0; option < data.length; option++){
+      options +=`<option value="${data[option].name}" class="options">${data[option].name}</option>`;
+    }
+    let currExercise = document.querySelectorAll('.exercises .exercise').length;
+    document.querySelector('.exercises').insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1, options));
+    addSelect2();
+  });
+}
+
+
+
+function cloneSetForm(id){
+  let currSet = document.querySelectorAll(`#${id} .set`).length;
+  let currExercise = document.querySelectorAll('.exercises .exercise').length;
+  document.getElementById(`addSetButton${id.slice(id.length -1)}`).insertAdjacentHTML("beforebegin", getSetForm(parseInt(id.slice(id.length -1)), currSet + 1));
+}
+
 
 function validateForm(){
   let regExp = /^\d+(\.\d{1,2})?$/;
@@ -99,6 +101,7 @@ function getExerciseFrom(currExercise, options){
   let exerciseForm =  '<hr>' + 
                       '<div class="container exercise" id="exercise' + currExercise +'">' +
                         '<div class="row justify-content-between mt-4">' +
+                          '<small class="help-text">Select option \'Other\' to add exercises not listed here</small>' +
                           '<div class="col">' +
                             '<label>Exercise</label>' +
                           '</div>' +

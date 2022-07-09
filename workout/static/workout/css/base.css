@@ -30,3 +30,8 @@ body {
 .details-obj-name {
   padding-left: 17px
 }
+
+.help-text {
+  padding-left: 15px; 
+  color:grey;
+}

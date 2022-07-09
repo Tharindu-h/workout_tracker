@@ -21,6 +21,7 @@
           <hr>
           <div class="container exercise" id="exercise{{ exercise.exercise_number }}">
             <div class="row justify-content-between mt-4">
+              <small class="help-text">Select option 'Other' to add exercises not listed here</small>
               <div class="col">
                 <label>Exercise</label>
               </div>
@@ -32,6 +33,7 @@
                       <option value="{{ e.name }}" class="options">{{ e.name }}</option>
                     {% endif %}
                   {% endfor %}
+                  <option value="Other">Other</option>
                 </select>
               </div>
             </div>
