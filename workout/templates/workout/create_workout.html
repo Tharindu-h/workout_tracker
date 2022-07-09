@@ -30,9 +30,6 @@
                   <option value="{{ exercise.name }}" class="options">{{ exercise.name }}</option>
                 {% endfor %}
               </select>
-              <div class="search-box">
-                <input type="text" class="search-box" placeholder="Start Typing..." />
-              </div>
             </div>
           </div>
           <div class="row mt-4">
@@ -91,5 +88,4 @@
 
 {% block js %}
   <script src={% static 'workout/js/form.js' %}></script>
-
 {% endblock js %}

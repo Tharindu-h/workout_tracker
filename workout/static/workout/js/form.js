@@ -2,10 +2,17 @@
 const exercises = document.querySelector('.exercises');
 // add a single listener on list item
 exercises.addEventListener('click', eventDelegationForClickEvents);
-exercises.addEventListener('keyup', eventDelegationForSearchBox);
-const exerciseOptions = document.getElementById('exercise_options'); //I should build an api for this instead
+const exerciseOptions = document.getElementById('exercise_options'); 
 const addExercise = document.querySelector(".addExercise");
 addExercise.addEventListener("click", cloneExerciseForm);
+
+// apply select2 to all existing exercise select boxes on page load
+let numInitialExercises = document.querySelectorAll('.exercise').length;
+for (let i = 1; i <= numInitialExercises; i++){
+  $(document).ready(function(){
+    $(`#select-e${i}`).select2();
+  });
+}
 
 function cloneExerciseForm(){
   fetch('/api/workout/exercise-types')
@@ -17,6 +24,9 @@ function cloneExerciseForm(){
     }
     let currExercise = document.querySelectorAll('.exercises .exercise').length;
     document.querySelector('.exercises').insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1, options));
+    $(document).ready(function(){
+      $(`#select-e${currExercise + 1}`).select2();
+    });
   });
 }
 
@@ -132,25 +142,4 @@ function getExerciseFrom(currExercise, options){
                         '</div>' +
                       '</div>';
   return exerciseForm;
-}
-
-function eventDelegationForSearchBox(e) {
-  if (e.target.matches('.search-box')){
-    console.log(e.target.parentNode.parentNode.parentNode.parentNode);
-    targetDiv = e.target.parentNode.parentNode.parentNode.parentNode;
-    let optionsList = targetDiv.querySelectorAll(".options");
-    filterList(optionsList, e.target.value);
-  }
-}
-function filterList(options, searchTerm){
-  for (let item = 0; item < options.length; item++){
-    let itemName = options[item].innerText;
-    itemName = itemName.toLowerCase();
-    if (itemName.indexOf(searchTerm.toLowerCase()) != -1){
-      options[item].style.display = "block";
-    }
-    else{
-      options[item].style.display = "none";
-    }
-  }
 }
