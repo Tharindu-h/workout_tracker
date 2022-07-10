@@ -143,6 +143,13 @@ function getExerciseFrom(currExercise, options){
                             '<button type="button" class="btn btn-outline-success addSet">Add New Set</button>' +
                           '</div>' +
                         '</div>' +
+                        '<div class="row mt-2 justify-content-start" id="removeExercise1">' +
+                          '<div class="col-2"></div>' +
+                            '<div class="col-3">' +
+                              '<button type="button" class="btn btn-danger removeExercise">Remove Exercise</button>' +
+                            '</div>' +
+                          '</div>' +
+                        '</div>' +
                       '</div>';
   return exerciseForm;
 }
