@@ -100,8 +100,10 @@ function getExerciseFrom(currExercise, options){
 
   let exerciseForm =  '<hr>' + 
                       '<div class="container exercise" id="exercise' + currExercise +'">' +
-                        '<div class="row justify-content-between mt-4">' +
+                        '<div class="row">' +
                           '<small class="help-text">Select option \'Other\' to add exercises not listed here</small>' +
+                        '</div>' +
+                        '<div class="row justify-content-between mt-4">' +
                           '<div class="col">' +
                             '<label>Exercise</label>' +
                           '</div>' +
