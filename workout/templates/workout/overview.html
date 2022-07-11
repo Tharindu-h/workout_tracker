@@ -1,19 +1,20 @@
 {% extends "workout/base.html" %}
 {% block content %}
-  <div class="container" style="padding-top: 30px">
+  <div class="container">
     <h3>Past Workouts</h3>
   </div>
   <div class="container">
     <a class="btn btn-primary btn-block btn-lg" href="{% url 'workout_create' %}">+ Start Workout</a>
   </div>
   {% for workout in workouts %}
-  <div class="container" style="padding-top: 30px">
+  <div class="container mt-4">
     <div class="card" style="">
       <div class="card-body">
         <h5 class="card-title font-weight-bold">{{ workout.name}}</h5>
         <p class="card-text">{{ workout.description }}</p>
         <p class="card-text font-italic">{{ workout.created }}</p>
         <a href="{% url 'workout_detail' workout.pk %}" class="btn btn-primary">Workout Detail</a> 
+        <a href="{% url 'workout_update' workout.pk %}" class="btn btn-secondary">Update Workout</a>
       </div>
     </div>
   </div>

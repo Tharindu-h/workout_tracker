@@ -1,5 +1,7 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
 from .views import *
+from .api import ExerciseTypeAPI
 
 urlpatterns = [
   path('', WorkoutsOverView.as_view(), name="workout_overview"),
@@ -8,3 +10,9 @@ urlpatterns = [
   path('update/<int:pk>', workout_edit_view, name="workout_update"),
   path('delete/<int:pk>', WorkoutDelete.as_view(), name="workout_delete")
 ]
+
+#API routes
+router = DefaultRouter()
+router.register(r'exercise-types', ExerciseTypeAPI, basename='exercise_types_api')
+
+urlpatterns += router.urls

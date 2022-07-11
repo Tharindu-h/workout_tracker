@@ -2,7 +2,7 @@
 {% load index %}
 {% block content %}
   {% if object.name %}
-    <h3 style="padding-left: 30px">{{ object.name }}</h3>
+    <h3 class="details-obj-name">{{ object.name }}</h3>
   {% endif %}
   {% for e in object.exercises.all %}
     <div class="container">
@@ -25,6 +25,7 @@
   </br>
   {% endfor %}
   <div class="container">
+    <a class="btn btn-secondary" href="{% url 'workout_update' pk=object.pk %}">Update Workout</a>
     <a class="btn btn-danger" href="{% url 'workout_delete' pk=object.pk %}">Delete Workout</a>
   </div>
 {% endblock content %}

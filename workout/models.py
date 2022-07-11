@@ -14,8 +14,8 @@ class Workout(models.Model):
 
 	def save(self, *args, **kwargs):
 		if not self.id:
-			self.created = timezone.now()
-		self.modified  = timezone.now()
+			self.created = timezone.localtime(timezone.now())
+		self.modified  = timezone.localtime(timezone.now())
 		return super(Workout, self).save(*args, **kwargs)
 	
 	def __str__(self):
