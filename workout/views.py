@@ -101,7 +101,12 @@ def workout_edit_view(request, pk):
       workout_exercises    = [] 
       curr_exercise_number = 1
       for e in request.POST.getlist("exercise"):
-        curr_e_type     = ExerciseType.objects.get(name=e)
+        e_name = capitalize_sentence(e)
+        try:
+          curr_e_type     = ExerciseType.objects.get(name=e_name)
+        except:
+          curr_e_type     = ExerciseType(name=e_name)
+          curr_e_type.save()
         curr_exercise   = Exercise(exercise_number=curr_exercise_number, exercise_type=curr_e_type, rpe=10)
         curr_exercise.save()
         curr_set_number = 1
