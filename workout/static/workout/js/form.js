@@ -77,6 +77,15 @@ function validateForm(){
 }
 
 
+function addOtherInputBox(){
+  let inputBox = `<div class="row justify-content-end">` +
+                   `<div class="col"></div>` +
+                    `<div class="col">` +
+                      `<input type="text" name="test" style="width: 240px;">` +
+                    `</div>` +
+                  `</div>`
+}
+
 function getSetForm(currExercise, currSet, id){
   let setForm = '<div class="row set" id="'+ 'e' + currExercise + '-' + 'set' + currSet +'">'+
                     '<div class="col-2">'+
