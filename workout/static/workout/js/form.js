@@ -16,8 +16,18 @@ function addSelect2(){
   }
 }
 function checkSelectedExercise(e){
+  let exerciseNum = e.target.parentNode.parentNode.parentNode.id;
+  let inputBox = document.getElementById(`exercise-input-${parseInt(exerciseNum.slice(exerciseNum.length -1))}`);
+
   if (e.target.value == "Other") {
-    console.log("other");
+    if (!inputBox) {
+      document.getElementById(e.target.parentNode.parentNode.id).insertAdjacentHTML("afterend", addOtherInputBox(parseInt(exerciseNum.slice(exerciseNum.length -1))));
+    }
+  }
+  else {
+    if(inputBox){
+      inputBox.remove();
+    }
   }
 }
 
@@ -43,6 +53,10 @@ function cloneExerciseForm(){
     }
     let currExercise = document.querySelectorAll('.exercises .exercise').length;
     document.querySelector('.exercises').insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1, options));
+    for (let i = 1; i <= currExercise; i++) {
+      console.log("test");
+      $(`#select-e${i}`).select2('destroy');
+    }
     addSelect2();
   });
 }
@@ -77,13 +91,16 @@ function validateForm(){
 }
 
 
-function addOtherInputBox(){
-  let inputBox = `<div class="row justify-content-end">` +
-                   `<div class="col"></div>` +
+function addOtherInputBox(exerciseNumber){
+  let inputBox =  `<div class="row justify-content-between" id="exercise-input-${exerciseNumber}">` +
                     `<div class="col">` +
-                      `<input type="text" name="test" style="width: 240px;">` +
+                      `<div>Exercise:</div>` +
                     `</div>` +
-                  `</div>`
+                    `<div class="col">` +
+                      `<input type="text" name="test" style="width: 240px;"></input>` +
+                    `</div>` +
+                  `</div>`;
+  return inputBox; 
 }
 
 function getSetForm(currExercise, currSet, id){
@@ -112,13 +129,14 @@ function getExerciseFrom(currExercise, options){
                         '<div class="row">' +
                           '<small class="help-text">Select option \'Other\' to add exercises not listed here</small>' +
                         '</div>' +
-                        '<div class="row justify-content-between mt-4">' +
+                        '<div class="row justify-content-between mt-4" id="select-e'+ currExercise +'-div">' +
                           '<div class="col">' +
                             '<label>Exercise</label>' +
                           '</div>' +
                           '<div class="col" id="exercise_options'+ currExercise +'">' +
                             '<select name="exercise" style="width:240px" class="select-exercise" id="select-e'+ currExercise +'">' +
                               '<option value="----">----</option>' +
+                              '<option value="Other">Other</option>' +
                               options +
                             '</select>' +
                           '</div>' +
