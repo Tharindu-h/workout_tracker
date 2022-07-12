@@ -22,6 +22,8 @@ function checkSelectedExercise(e){
   if (e.target.value == "Other") {
     if (!inputBox) {
       document.getElementById(e.target.parentNode.parentNode.id).insertAdjacentHTML("afterend", addOtherInputBox(parseInt(exerciseNum.slice(exerciseNum.length -1))));
+      console.log(e.target.name);
+      e.target.name = `ignore${parseInt(exerciseNum.slice(exerciseNum.length -1))}`
     }
   }
   else {
@@ -53,10 +55,6 @@ function cloneExerciseForm(){
     }
     let currExercise = document.querySelectorAll('.exercises .exercise').length;
     document.querySelector('.exercises').insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1, options));
-    for (let i = 1; i <= currExercise; i++) {
-      console.log("test");
-      $(`#select-e${i}`).select2('destroy');
-    }
     addSelect2();
   });
 }
@@ -97,7 +95,7 @@ function addOtherInputBox(exerciseNumber){
                       `<div>Exercise:</div>` +
                     `</div>` +
                     `<div class="col">` +
-                      `<input type="text" name="test" style="width: 240px;"></input>` +
+                      `<input type="text" name="exercise" style="width: 240px;"></input>` +
                     `</div>` +
                   `</div>`;
   return inputBox; 
