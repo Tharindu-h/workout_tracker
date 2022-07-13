@@ -122,12 +122,9 @@ def workout_edit_view(request, pk):
 
   return render(request, 'workout/update_workout.html', context)
 
-class WorkoutDelete(DeleteView):
+class WorkoutDelete(LoginRequiredMixin, DeleteView):
   model       = Workout
   success_url = reverse_lazy('workout_overview')
 
-  def test_func(self):
-    workout = self.get_object()
-    if self.request.user == workout.user:
-      return True
-    return False
+  def get_queryset(self):
+    return self.model.objects.filter(user__pk=self.request.user.id)
