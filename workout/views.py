@@ -112,6 +112,7 @@ def workout_edit_view(request, pk):
         workout_exercises.append(curr_exercise)
         obj.exercises.add(curr_exercise)
         curr_exercise_number += 1
+      obj.save()
       if request.POST.get("save"):
         context["object"] = obj
         messages.success(request, 'Saved!')
