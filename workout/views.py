@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponseForbidden
+from django.contrib import messages
 from django.urls import reverse_lazy
+from django.db.models import Q
 from django.views.generic import DetailView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
-from django.contrib import messages
 from workout_tracker.common.util.helper import capitalize_sentence
 from .models import *
 
@@ -27,7 +28,7 @@ class WorkoutDetailsView(LoginRequiredMixin, DetailView):
 @login_required
 def workout_create_view(request):
 
-  exercises = ExerciseType.objects.all()
+  exercises = ExerciseType.objects.filter(Q(user__id=1) | Q(user__id=request.user.pk))
   context = {
     'exercises' : exercises
   }
@@ -41,9 +42,9 @@ def workout_create_view(request):
       for e in request.POST.getlist("exercise"):
         e_name = capitalize_sentence(e)
         try:
-          curr_e_type     = ExerciseType.objects.get(name=e_name)
+          curr_e_type     = ExerciseType.objects.get(Q(user__id=1) | Q(user__id=request.user.pk), Q(name=e_name))
         except:
-          curr_e_type     = ExerciseType(name=e_name)
+          curr_e_type     = ExerciseType(name=e_name, user=request.user)
           curr_e_type.save()
         curr_exercise   = Exercise(exercise_number=curr_exercise_number, exercise_type=curr_e_type, rpe=10)
         curr_exercise.save()
@@ -69,16 +70,6 @@ def workout_create_view(request):
 
   return render(request, 'workout/create_workout.html', context)
 
-class WorkoutDelete(DeleteView):
-  model       = Workout
-  success_url = reverse_lazy('workout_overview')
-
-  def test_func(self):
-    workout = self.get_object()
-    if self.request.user == workout.user:
-      return True
-    return False
-
 
 @login_required
 def workout_edit_view(request, pk):
@@ -103,9 +94,9 @@ def workout_edit_view(request, pk):
       for e in request.POST.getlist("exercise"):
         e_name = capitalize_sentence(e)
         try:
-          curr_e_type     = ExerciseType.objects.get(name=e_name)
+          curr_e_type     = ExerciseType.objects.get(Q(user__id=1) | Q(user__id=request.user.pk), Q(name=e_name))
         except:
-          curr_e_type     = ExerciseType(name=e_name)
+          curr_e_type     = ExerciseType(name=e_name, user=request.user)
           curr_e_type.save()
         curr_exercise   = Exercise(exercise_number=curr_exercise_number, exercise_type=curr_e_type, rpe=10)
         curr_exercise.save()
@@ -130,3 +121,13 @@ def workout_edit_view(request, pk):
       return redirect('workout_detail', obj.pk)
 
   return render(request, 'workout/update_workout.html', context)
+
+class WorkoutDelete(DeleteView):
+  model       = Workout
+  success_url = reverse_lazy('workout_overview')
+
+  def test_func(self):
+    workout = self.get_object()
+    if self.request.user == workout.user:
+      return True
+    return False
