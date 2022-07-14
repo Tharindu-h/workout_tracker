@@ -99,10 +99,10 @@ function validateForm(){
 function addOtherInputBox(exerciseNumber){
   let inputBox =  `<div class="row justify-content-between" id="exercise-input-${exerciseNumber}">` +
                     `<div class="col">` +
-                      `<div>Exercise:</div>` +
+                      `<label>Exercise</label>` +
                     `</div>` +
                     `<div class="col">` +
-                      `<input type="text" name="exercise" style="width: 240px;"></input>` +
+                      `<input type="text" class="select-exercise" name="exercise"></input>` +
                     `</div>` +
                   `</div>`;
   return inputBox; 
@@ -139,7 +139,7 @@ function getExerciseFrom(currExercise, options){
                             '<label>Exercise</label>' +
                           '</div>' +
                           '<div class="col" id="exercise_options'+ currExercise +'">' +
-                            '<select name="exercise" style="width:240px" class="select-exercise" id="select-e'+ currExercise +'">' +
+                            '<select name="exercise" class="select-exercise" id="select-e'+ currExercise +'">' +
                               '<option value="----">----</option>' +
                               '<option value="Other">Other</option>' +
                               options +

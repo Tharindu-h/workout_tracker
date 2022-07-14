@@ -29,10 +29,10 @@
             <div class="col" id="exercise_options">
               <select name="exercise" class="select-exercise" id="select-e1">
                 <option value="----">----</option>
+                <option value="Other">Other</option>
                 {% for exercise in exercises %}
                   <option value="{{ exercise.name }}" class="options">{{ exercise.name }}</option>
                 {% endfor %}
-                <option value="Other">Other</option>
               </select>
             </div>
           </div>
