@@ -16,8 +16,20 @@ function addSelect2(){
   }
 }
 function checkSelectedExercise(e){
+  let exerciseNum = e.target.parentNode.parentNode.parentNode.id;
+  let inputBox = document.getElementById(`exercise-input-${parseInt(exerciseNum.slice(exerciseNum.length -1))}`);
+
   if (e.target.value == "Other") {
-    console.log("other");
+    if (!inputBox) {
+      document.getElementById(e.target.parentNode.parentNode.id).insertAdjacentHTML("afterend", addOtherInputBox(parseInt(exerciseNum.slice(exerciseNum.length -1))));
+      console.log(e.target.name);
+      e.target.name = `ignore${parseInt(exerciseNum.slice(exerciseNum.length -1))}`
+    }
+  }
+  else {
+    if(inputBox){
+      inputBox.remove();
+    }
   }
 }
 
@@ -61,21 +73,40 @@ function validateForm(){
   let numExercises = document.querySelectorAll('.exercises .exercise').length;
   for (let e = 1; e <= numExercises; e++){
     if (document.getElementById(`select-e${e}`).value == "----"){
+      document.getElementById(`exercise${e}`).insertAdjacentHTML("afterbegin", getFromValidateMessage("Please select an exercise"));
       return false;
     }
     numSets = document.querySelectorAll(`#exercise${e} .set`).length;
     for (let s = 1; s <= numSets; s++){
       let currReps   = document.getElementById(`e${e}-set${s}-reps`).value;
       let currWeight = document.getElementById(`e${e}-set${s}-weight`).value;
-      if (currReps == "" || currWeight == "" || !regExp.test(currReps) || !regExp.test(currWeight)){
+      if (currReps == "" || !regExp.test(currReps)) {
+        console.log("here");
+        document.getElementById(`exercise${e}`).insertAdjacentHTML("afterbegin", getFromValidateMessage(`Invalid input for set ${s} reps, please note only numbers are valid as reps`));
         return false;
       }
+      if (currWeight == "" || !regExp.test(currWeight)) {
+        document.getElementById(`exercise${e}`).insertAdjacentHTML("afterbegin", getFromValidateMessage(`Invalid input for set ${s} weight, please note only numbers are valid as weight`));
+        return false;
+      } 
     }
   }
 
   return true;
 }
 
+
+function addOtherInputBox(exerciseNumber){
+  let inputBox =  `<div class="row justify-content-between" id="exercise-input-${exerciseNumber}">` +
+                    `<div class="col">` +
+                      `<div>Exercise:</div>` +
+                    `</div>` +
+                    `<div class="col">` +
+                      `<input type="text" name="exercise" style="width: 240px;"></input>` +
+                    `</div>` +
+                  `</div>`;
+  return inputBox; 
+}
 
 function getSetForm(currExercise, currSet, id){
   let setForm = '<div class="row set" id="'+ 'e' + currExercise + '-' + 'set' + currSet +'">'+
@@ -103,13 +134,14 @@ function getExerciseFrom(currExercise, options){
                         '<div class="row">' +
                           '<small class="help-text">Select option \'Other\' to add exercises not listed here</small>' +
                         '</div>' +
-                        '<div class="row justify-content-between mt-4">' +
+                        '<div class="row justify-content-between mt-4" id="select-e'+ currExercise +'-div">' +
                           '<div class="col">' +
                             '<label>Exercise</label>' +
                           '</div>' +
                           '<div class="col" id="exercise_options'+ currExercise +'">' +
                             '<select name="exercise" style="width:240px" class="select-exercise" id="select-e'+ currExercise +'">' +
                               '<option value="----">----</option>' +
+                              '<option value="Other">Other</option>' +
                               options +
                             '</select>' +
                           '</div>' +
@@ -154,4 +186,12 @@ function getExerciseFrom(currExercise, options){
                         '</div>' +
                       '</div>';
   return exerciseForm;
+}
+
+function getFromValidateMessage(message) {
+  return `<div class="row">
+            <p class="form-validation-instruction">
+              ${message}
+            </p>
+          </div>`;
 }

@@ -12,7 +12,8 @@
       <div class="card-body">
         <h5 class="card-title font-weight-bold">{{ workout.name}}</h5>
         <p class="card-text">{{ workout.description }}</p>
-        <p class="card-text font-italic">{{ workout.created }}</p>
+        <p class="card-text font-italic">Created: {{ workout.created }}</p>
+        <p class="card-text font-italic">Edited: {{ workout.modified }}</p>
         <a href="{% url 'workout_detail' workout.pk %}" class="btn btn-primary">Workout Detail</a> 
         <a href="{% url 'workout_update' workout.pk %}" class="btn btn-secondary">Update Workout</a>
       </div>
