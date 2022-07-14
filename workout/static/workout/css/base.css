@@ -51,3 +51,8 @@ body {
 .remove-set-button {
   padding : 0;
 }
+
+.form-validation-instruction {
+  padding-left: 15px; 
+  color:red;
+}
