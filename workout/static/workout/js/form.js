@@ -73,15 +73,22 @@ function validateForm(){
   let numExercises = document.querySelectorAll('.exercises .exercise').length;
   for (let e = 1; e <= numExercises; e++){
     if (document.getElementById(`select-e${e}`).value == "----"){
+      document.getElementById(`exercise${e}`).insertAdjacentHTML("afterbegin", getFromValidateMessage("Please select an exercise"));
       return false;
     }
     numSets = document.querySelectorAll(`#exercise${e} .set`).length;
     for (let s = 1; s <= numSets; s++){
       let currReps   = document.getElementById(`e${e}-set${s}-reps`).value;
       let currWeight = document.getElementById(`e${e}-set${s}-weight`).value;
-      if (currReps == "" || currWeight == "" || !regExp.test(currReps) || !regExp.test(currWeight)){
+      if (currReps == "" || !regExp.test(currReps)) {
+        console.log("here");
+        document.getElementById(`exercise${e}`).insertAdjacentHTML("afterbegin", getFromValidateMessage(`Invalid input for set ${s} reps, please note only numbers are valid as reps`));
         return false;
       }
+      if (currWeight == "" || !regExp.test(currWeight)) {
+        document.getElementById(`exercise${e}`).insertAdjacentHTML("afterbegin", getFromValidateMessage(`Invalid input for set ${s} weight, please note only numbers are valid as weight`));
+        return false;
+      } 
     }
   }
 
@@ -179,4 +186,12 @@ function getExerciseFrom(currExercise, options){
                         '</div>' +
                       '</div>';
   return exerciseForm;
+}
+
+function getFromValidateMessage(message) {
+  return `<div class="row">
+            <p class="form-validation-instruction">
+              ${message}
+            </p>
+          </div>`;
 }
