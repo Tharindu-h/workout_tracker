@@ -88,7 +88,7 @@ function getSetForm(currExercise, currSet, id){
                     '<div class="col-3">'+
                       '<input type="text" class="form-control" name="E'+ currExercise +'-reps" id="e'+ currExercise +'-set'+ currSet +'-reps"></input>'+
                     '</div>'+
-                    '<div class="col-2">'+
+                    '<div class="col-2 remove-set-button">'+
                       '<button type="button" class="btn btn-outline-danger removeSet">Remove Set'+
                       '</button>'+
                     '</div>'+
@@ -134,7 +134,7 @@ function getExerciseFrom(currExercise, options){
                           '<div class="col-3">' +
                             '<input type="text" class="form-control" name="E'+ currExercise +'-reps" id="e'+ currExercise +'-set1-reps"></input>' +
                           '</div>' +
-                          '<div class="col-2">' +
+                          '<div class="col-2 remove-set-button">' +
                             '<button type="button" class="btn btn-outline-danger removeSet">Remove Set' +
                             '</button>' +
                           '</div>' +
