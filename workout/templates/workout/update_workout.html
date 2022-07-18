@@ -2,10 +2,10 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-  <form method="POST" name="workoutCreationForm" onsubmit="return validateForm()">
+  <form method="POST" class="content-section" name="workoutCreationForm" onsubmit="return validateForm()">
     {% csrf_token %}
     <fieldset class="form-group">
-      <legend class="border-bottom mb-4">New Workout</legend>
+      <legend class="border-bottom mb-4">{{ object.name }}</legend>
       <div class="container">
         <div class="row mt-2">
           <div class="col-4">
@@ -60,7 +60,7 @@
                 <div class="col-3">
                   <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-reps" value="{{ set.reps }}" id="e{{ exercise.exercise_number }}-set{{ set.set_number }}-reps"></input>
                 </div>
-                <div class="col-2">
+                <div class="col-2 remove-set-button">
                   <button type="button" class="btn btn-outline-danger removeSet">Remove Set
                   </button>
                 </div>
