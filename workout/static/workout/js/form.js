@@ -64,7 +64,10 @@ function cloneExerciseForm(){
 function cloneSetForm(id){
   let currSet = document.querySelectorAll(`#${id} .set`).length;
   let currExercise = document.querySelectorAll('.exercises .exercise').length;
-  document.getElementById(`addSetButton${id.slice(id.length -1)}`).insertAdjacentHTML("beforebegin", getSetForm(parseInt(id.slice(id.length -1)), currSet + 1));
+  var txt = id;
+  var num = txt.match(/\d/g);
+  num = num.join("");
+  document.getElementById(`addSetButton${num}`).insertAdjacentHTML("beforebegin", getSetForm(num, currSet + 1));
 }
 
 
@@ -124,7 +127,7 @@ function getSetForm(currExercise, currSet, id){
                       '</button>'+
                     '</div>'+
                   '</div>';
-    return setForm;
+  return setForm;
 }
 
 function getExerciseFrom(currExercise, options){
