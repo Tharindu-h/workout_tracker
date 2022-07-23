@@ -5,8 +5,7 @@
 __pycache__
 db.sqlite3
 media
-#settings file
-workout_tracker/settings.py
+
 
 
 # Backup files # 
