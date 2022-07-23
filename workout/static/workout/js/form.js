@@ -17,13 +17,14 @@ function addSelect2(){
 }
 function checkSelectedExercise(e){
   let exerciseNum = e.target.parentNode.parentNode.parentNode.id;
-  let inputBox = document.getElementById(`exercise-input-${parseInt(exerciseNum.slice(exerciseNum.length -1))}`);
+  exerciseNum = getIntegerFromStr(exerciseNum);
+  let inputBox = document.getElementById(`exercise-input-${exerciseNum}`);
 
   if (e.target.value == "Other") {
     if (!inputBox) {
       document.getElementById(e.target.parentNode.parentNode.id).insertAdjacentHTML("afterend", addOtherInputBox(parseInt(exerciseNum.slice(exerciseNum.length -1))));
       console.log(e.target.name);
-      e.target.name = `ignore${parseInt(exerciseNum.slice(exerciseNum.length -1))}`
+      e.target.name = `ignore${exerciseNum}`
     }
   }
   else {
@@ -64,10 +65,8 @@ function cloneExerciseForm(){
 function cloneSetForm(id){
   let currSet = document.querySelectorAll(`#${id} .set`).length;
   let currExercise = document.querySelectorAll('.exercises .exercise').length;
-  var txt = id;
-  var num = txt.match(/\d/g);
-  num = num.join("");
-  document.getElementById(`addSetButton${num}`).insertAdjacentHTML("beforebegin", getSetForm(num, currSet + 1));
+  let idNumber = getIntegerFromStr(id)
+  document.getElementById(`addSetButton${idNumber}`).insertAdjacentHTML("beforebegin", getSetForm(idNumber, currSet + 1));
 }
 
 
@@ -128,6 +127,12 @@ function getSetForm(currExercise, currSet, id){
                     '</div>'+
                   '</div>';
   return setForm;
+}
+
+function getIntegerFromStr(str) {
+  let num = str.match(/\d/g);
+  num = num.join("");
+  return num;
 }
 
 function getExerciseFrom(currExercise, options){
