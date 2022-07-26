@@ -9,7 +9,8 @@ def create_exercises(apps, schema_editor):
   upper_body_exercises = ['BARBELL BENCH PRESS', 'CRUNCH', 'LAT PULLDOWN', 'MILITARY PRESS', 'CHEST-SUPPORTED T-BAR ROW', 'CABLE FLYE', 'DUMBBELL SUPINATED CURL',
                           'SINGLE-ARM ROPE TRICEP EXTENSION', 'DUMBBELL INCLINE PRESS', 'REVERSE GRIP LAT PULLDOWN', 'DIP', 'BARBELL BENT OVER ROW',
                           'DUMBBELL LATERAL RAISE', 'SEATED FACE PULL', 'HAMMER CURL', 'SINGLE-ARM PULLDOWN', 'DUMBBELL SEATED SHOULDER PRESS', 'DUMBBELL ROW'
-                          'EZ BAR CURL', 'HANGING LEG RAISE', 'NEUTRAL-GRIP PULLDOWN', 'CABLE LATERAL RAISE', 'REVERSE PEC DECK', 'SINGLE-ARM CABLE CURL']
+                          'EZ BAR CURL', 'HANGING LEG RAISE', 'NEUTRAL-GRIP PULLDOWN', 'CABLE LATERAL RAISE', 'REVERSE PEC DECK', 'SINGLE-ARM CABLE CURL',
+                          'DUMBBELL SKULL CRUSHER', 'CABLE SEATED ROW', 'CABLE REVERSE FLYE', 'Cable Ab Curl', 'Ab Roller']
 
   lower_body_exercises = ['BACK SQUAT ', 'ROMANIAN DEADLIFT', 'BARBELL HIP THRUST', 'LEG EXTENSION', 'LYING LEG CURL', 'MACHINE SEATED HIP ABDUCTION',
                           'DEADLIFT', 'DUMBBELL WALKING LUNGE', 'SINGLE-LEG LEG EXTENSION', 'SINGLE-LEG LYING LEG CURL', 'SEATED LEG CURL',
@@ -19,11 +20,13 @@ def create_exercises(apps, schema_editor):
   root_user            = User.objects.get(id=1)
 
   for exercise in upper_body_exercises:
-    exercise_type, created = ExerciseType.get_object_or_create(name=exercise, user=root_user)
+    capitalized_exercise   = capitalize_sentence(exercise)
+    exercise_type, created = ExerciseType.get_object_or_create(name=capitalized_exercise, user=root_user)
     exercise_type.save()
 
   for exercise in lower_body_exercises:
-    exercise_type, created = ExerciseType.get_object_or_create(name=exercise, user=root_user)
+    capitalized_exercise   = capitalize_sentence(exercise)
+    exercise_type, created = ExerciseType.get_object_or_create(name=capitalized_exercise, user=root_user)
     exercise_type.save()
 
 
