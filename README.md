@@ -2,6 +2,7 @@
 
 A website for recording your workouts. This allows users to record their workout data flexibly. 
 
+
 # Main features
 
 - Workout creation from is fully dynamic.
@@ -9,3 +10,10 @@ A website for recording your workouts. This allows users to record their workout
 - An exercise can have as many sets as necessary (each exercise must at least have one set).
 - each set may have any integer weight and number of reps
 - Workouts can be edited after being created.
+
+
+# Screenshots 
+
+## login page:
+
+<img src="./design/screenshots/login.JPG" alt="drawing" width="200"/>
