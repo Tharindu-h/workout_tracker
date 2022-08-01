@@ -1,4 +1,3 @@
-from time import time
 from django.db import models
 from users.models import User
 from django.utils import timezone
@@ -27,7 +26,7 @@ class Workout(models.Model):
 		ordering = ['-created']
 
 @receiver(pre_delete, sender=Workout)
-def pre_save_receiver(sender, instance, **kwargs):
+def pre_delete_receiver(sender, instance, **kwargs):
   exercises = instance.exercises.all()
   for e in exercises:
     e.delete()
@@ -46,7 +45,7 @@ class Exercise(models.Model):
 		ordering = ['exercise_number']
 
 @receiver(pre_delete, sender=Exercise)
-def pre_save_receiver(sender, instance, **kwargs):
+def pre_delete_receiver(sender, instance, **kwargs):
   sets = instance.sets.all()
   for s in sets:
     s.delete()
