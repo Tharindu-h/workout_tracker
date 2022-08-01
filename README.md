@@ -14,18 +14,14 @@ A website for recording your workouts. This allows users to record their workout
 
 ## Screenshots 
 
-### Login Page:                                                                  
+| Register Page:  | Login Page:  |
+|:---:|:---:|
+| <img src="./design/screenshots/register.JPG" alt="drawing" width="50%"/>  | <img src="./design/screenshots/login.JPG" alt="drawing" width="50%"/> | 
 
-<img src="./design/screenshots/login.JPG" alt="drawing" width="20%"/>
+| Workout Create Page:  | Workout Update Page:  |
+|:---:|:---:|
+| <img src="./design/screenshots/workout_create.JPG" alt="drawing" width="50%"/>  | <img src="./design/screenshots/workout_update.JPG" alt="drawing" width="50%"/> | 
 
-### Workout Overview Page:                                                                  
-
-<img src="./design/screenshots/overview.JPG" alt="drawing" width="20%"/>
-
-### Workout Creation Page:                                                                  
-
-<img src="./design/screenshots/create_workout.JPG" alt="drawing" width="20%"/>
-
-### Workout Update Page:                                                                  
-
-<img src="./design/screenshots/update_workout.JPG" alt="drawing" width="20%"/>
+| Workout Overview Page:  | Workout Detail Page:  |
+|:---:|:---:|
+| <img src="./design/screenshots/overview.JPG" alt="drawing" width="50%"/>  | <img src="./design/screenshots/workout_detail.JPG" alt="drawing" width="50%"/> | 
