@@ -14,6 +14,8 @@ A website for recording your workouts. This allows users to record their workout
 
 # Screenshots 
 
-## login page:
+## login page:                                                                  |   ## overview page
 
 <img src="./design/screenshots/login.JPG" alt="drawing" width="200"/>
+
+https://stackoverflow.com/questions/24319505/how-can-one-display-images-side-by-side-in-a-github-readme-md
