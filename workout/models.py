@@ -52,7 +52,6 @@ def pre_delete_receiver(sender, instance, **kwargs):
 
 class ExerciseType(models.Model):
 	name        = models.CharField(verbose_name=("Exercise Name"), max_length=50)
-	description = models.CharField(verbose_name=("Description"), max_length=500, blank=True)
 	user        = models.ForeignKey(User, verbose_name=("User"), on_delete=models.CASCADE)
 
 	def __str__(self):
