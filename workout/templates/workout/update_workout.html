@@ -66,6 +66,17 @@
                 </div>
               </div>
             {% endfor %}
+            <div class="row mt-4" id="lsrpe{{ exercise.exercise_number }}">
+              <small class="help-text">Last Set Rate of Perceived Exertion (1-10)</small>
+            </div>
+            <div class="row">
+              <div class="col-2">
+                <label>LSRPE</label> 
+              </div>
+              <div class="col-3">
+                <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-lsrpe" value={{ exercise.lsrpe }} id="e{{ exercise.exercise_number }}-lsrpe"></input>
+              </div>
+            </div>
             <div class="row mt-2 justify-content-start" id="addSetButton{{ exercise.exercise_number }}">
               <div class="col-2"></div>
               <div class="col-3">

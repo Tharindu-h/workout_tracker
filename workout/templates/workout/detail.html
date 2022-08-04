@@ -7,7 +7,12 @@
   {% for e in object.exercises.all %}
     <div class="container">
       <div class="card">
-        <div class="card-header">{{ e.exercise_type.name }}</div>
+        <div class="card-header">
+          <div class="row justify-content-between"> 
+            <div class="col">{{ e.exercise_type.name }}</div>
+            <div class="col" style="text-align: right;"> LSRPE: {{ e.lsrpe }}</div> 
+          </div>
+        </div>
         <div class="row">
           <div class="col-4"></div>
           <div class="col-4 text-center">Reps</div>
@@ -20,8 +25,8 @@
             <div class="col-4 text-center">{{ s.weight }}</div> 
           </div>  
         {% endfor %}
+      </div>
     </div>
-  </div>
   </br>
   {% endfor %}
   <div class="container">
