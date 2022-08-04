@@ -74,7 +74,11 @@
                 <label>LSRPE</label> 
               </div>
               <div class="col-3">
-                <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-lsrpe" value={{ exercise.lsrpe }} id="e{{ exercise.exercise_number }}-lsrpe"></input>
+                {% if exercise.lsrpe != None %}
+                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-lsrpe" value={{ exercise.lsrpe }} id="e{{ exercise.exercise_number }}-lsrpe"></input>
+                {% else %}
+                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-lsrpe" value=0 id="e{{ exercise.exercise_number }}-lsrpe"></input>
+                {% endif %}
               </div>
             </div>
             <div class="row mt-2 justify-content-start" id="addSetButton{{ exercise.exercise_number }}">
