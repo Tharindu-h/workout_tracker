@@ -46,8 +46,8 @@ def workout_create_view(request):
         except:
           curr_e_type     = ExerciseType(name=e_name, user=request.user)
           curr_e_type.save()
-        curr_exercise   = Exercise(exercise_number=curr_exercise_number, exercise_type=curr_e_type,
-                           lsrpe=request.POST.get(f"E{curr_exercise_number}-lsrpe"))
+        curr_e_lsrpe    = request.POST.get(f"E{curr_exercise_number}-lsrpe") if type(request.POST.get(f"E{curr_exercise_number}-lsrpe")) == int else 0
+        curr_exercise   = Exercise(exercise_number=curr_exercise_number, exercise_type=curr_e_type, lsrpe=curr_e_lsrpe)
         curr_exercise.save()
         curr_set_number = 1
         for s in request.POST.getlist(f"E{curr_exercise_number}-reps"):
@@ -98,7 +98,8 @@ def workout_edit_view(request, pk):
         except:
           curr_e_type     = ExerciseType(name=e_name, user=request.user)
           curr_e_type.save()
-        curr_exercise   = Exercise(exercise_number=curr_exercise_number, exercise_type=curr_e_type, rpe=10)
+        curr_e_lsrpe    = request.POST.get(f"E{curr_exercise_number}-lsrpe") if type(request.POST.get(f"E{curr_exercise_number}-lsrpe")) == int else 0
+        curr_exercise   = Exercise(exercise_number=curr_exercise_number, exercise_type=curr_e_type, lsrpe=curr_e_lsrpe)
         curr_exercise.save()
         curr_set_number = 1
         for s in request.POST.getlist(f"E{curr_exercise_number}-reps"):
