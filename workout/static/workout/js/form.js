@@ -180,6 +180,9 @@ function getExerciseFrom(currExercise, options){
                           '</div>' +
                         '</div>' +
                         '<div class="row mt-4" id="lsrpe'+ currExercise +'">' +
+                          '<small class="help-text">Last Set Rate of Perceived Exertion (1-10)</small>' +
+                        '</div>' +
+                        '<div class="row">' +
                           '<div class="col-2">' +
                             '<label>LSRPE</label>' + 
                           '</div>' +
