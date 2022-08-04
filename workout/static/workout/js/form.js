@@ -66,7 +66,7 @@ function cloneSetForm(id){
   let currSet = document.querySelectorAll(`#${id} .set`).length;
   let currExercise = document.querySelectorAll('.exercises .exercise').length;
   let idNumber = getIntegerFromStr(id)
-  document.getElementById(`addSetButton${idNumber}`).insertAdjacentHTML("beforebegin", getSetForm(idNumber, currSet + 1));
+  document.getElementById(`lsrpe${idNumber}`).insertAdjacentHTML("beforebegin", getSetForm(idNumber, currSet + 1));
 }
 
 
@@ -177,6 +177,14 @@ function getExerciseFrom(currExercise, options){
                           '<div class="col-2 remove-set-button">' +
                             '<button type="button" class="btn btn-outline-danger removeSet">Remove Set' +
                             '</button>' +
+                          '</div>' +
+                        '</div>' +
+                        '<div class="row mt-4" id="lsrpe'+ currExercise +'">' +
+                          '<div class="col-2">' +
+                            '<label>LSRPE</label>' + 
+                          '</div>' +
+                          '<div class="col-3">' +
+                            '<input type="text" class="form-control" name="E'+ currExercise +'-lsrpe" id="e'+ currExercise +'-lsrpe"></input>' +
                           '</div>' +
                         '</div>' +
                         '<div class="row mt-2 justify-content-start" id="addSetButton'+ currExercise +'">' +
