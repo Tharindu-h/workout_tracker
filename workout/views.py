@@ -54,7 +54,6 @@ def workout_create_view(request):
         curr_exercise.save()
         curr_set_number = 1
         for s in request.POST.getlist(f"E{curr_exercise_number}-reps"):
-          print(request.POST.getlist(f"E{curr_exercise_number}-reps"))
           curr_weight   = request.POST.getlist(f"E{curr_exercise_number}-weight")[curr_set_number - 1]
           curr_set      = Set(set_number=curr_set_number, 
                             weight=curr_weight, 
@@ -109,7 +108,6 @@ def workout_edit_view(request, pk):
         curr_exercise.save()
         curr_set_number = 1
         for s in request.POST.getlist(f"E{curr_exercise_number}-reps"):
-          print(request.POST.getlist(f"E{curr_exercise_number}-reps"))
           curr_weight   = request.POST.getlist(f"E{curr_exercise_number}-weight")[curr_set_number - 1]
           curr_set      = Set(set_number=curr_set_number, 
                             weight=curr_weight, 
