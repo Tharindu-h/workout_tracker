@@ -36,7 +36,7 @@ class Exercise(models.Model):
 	exercise_number = models.IntegerField(verbose_name=("Exercise Number"))
 	exercise_type   = models.ForeignKey("ExerciseType", verbose_name=("Exercise Type"), on_delete=models.CASCADE)
 	sets            = models.ManyToManyField("Set", verbose_name=("Sets"))
-	rpe             = models.IntegerField(verbose_name=("RPE"), blank=True)
+	lsrpe           = models.IntegerField(verbose_name=("LSRPE"), blank=True, null=True)
 
 	def __str__(self):
 		return f"{self.exercise_number}"
