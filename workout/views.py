@@ -114,6 +114,7 @@ def workout_edit_view(request, pk):
           curr_exercise.sets.add(curr_set)
         obj.exercises.add(curr_exercise)
         curr_exercise_number += 1
+      obj.name = request.POST.get("name")
       obj.save()
       if request.POST.get("save"):
         context["object"] = obj
