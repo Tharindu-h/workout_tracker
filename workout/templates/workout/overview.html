@@ -16,6 +16,9 @@
         <p class="card-text font-italic">Edited: {{ workout.modified }}</p>
         <a href="{% url 'workout_detail' workout.pk %}" class="btn btn-primary">Workout Detail</a> 
         <a href="{% url 'workout_update' workout.pk %}" class="btn btn-secondary">Update Workout</a>
+        <div class="row mt-1"></div>
+        <a href="{% url 'workout_clone' workout.pk %}" class="btn btn-outline-success">Clone Workout</a> 
+        <a href="{% url 'workout_delete' workout.pk %}" class="btn btn-outline-danger">Delete Workout</a>
       </div>
     </div>
   </div>

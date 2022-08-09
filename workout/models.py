@@ -36,7 +36,7 @@ class Exercise(models.Model):
 	exercise_number = models.IntegerField(verbose_name=("Exercise Number"))
 	exercise_type   = models.ForeignKey("ExerciseType", verbose_name=("Exercise Type"), on_delete=models.CASCADE)
 	sets            = models.ManyToManyField("Set", verbose_name=("Sets"))
-	rpe             = models.IntegerField(verbose_name=("RPE"), blank=True)
+	lsrpe           = models.IntegerField(verbose_name=("LSRPE"), blank=True, null=True)
 
 	def __str__(self):
 		return f"{self.exercise_number}"
@@ -52,7 +52,6 @@ def pre_delete_receiver(sender, instance, **kwargs):
 
 class ExerciseType(models.Model):
 	name        = models.CharField(verbose_name=("Exercise Name"), max_length=50)
-	description = models.CharField(verbose_name=("Description"), max_length=500, blank=True)
 	user        = models.ForeignKey(User, verbose_name=("User"), on_delete=models.CASCADE)
 
 	def __str__(self):

@@ -37,7 +37,6 @@ def workout_create_view(request):
     if request.POST.get("save") or request.POST.get("finish"):
       workout = Workout(name=request.POST.get("name"), user=User.objects.get(username=request.user))
       workout.save()
-      workout_exercises   = [] 
       curr_exercise_number = 1
       for e in request.POST.getlist("exercise"):
         e_name = capitalize_sentence(e)
@@ -46,11 +45,14 @@ def workout_create_view(request):
         except:
           curr_e_type     = ExerciseType(name=e_name, user=request.user)
           curr_e_type.save()
-        curr_exercise   = Exercise(exercise_number=curr_exercise_number, exercise_type=curr_e_type, rpe=10)
+        try:
+          curr_e_lsrpe  = int(request.POST.get(f"E{curr_exercise_number}-lsrpe"))
+        except:
+          curr_e_lsrpe  = 0
+        curr_exercise   = Exercise(exercise_number=curr_exercise_number, exercise_type=curr_e_type, lsrpe=curr_e_lsrpe)
         curr_exercise.save()
         curr_set_number = 1
         for s in request.POST.getlist(f"E{curr_exercise_number}-reps"):
-          print(request.POST.getlist(f"E{curr_exercise_number}-reps"))
           curr_weight   = request.POST.getlist(f"E{curr_exercise_number}-weight")[curr_set_number - 1]
           curr_set      = Set(set_number=curr_set_number, 
                             weight=curr_weight, 
@@ -58,7 +60,6 @@ def workout_create_view(request):
           curr_set.save()
           curr_set_number += 1
           curr_exercise.sets.add(curr_set)
-        workout_exercises.append(curr_exercise)
         workout.exercises.add(curr_exercise)
         curr_exercise_number += 1
       if request.POST.get("save"):
@@ -88,7 +89,6 @@ def workout_edit_view(request, pk):
       old_exercises        = obj.exercises.all()
       for e in old_exercises:
         e.delete()
-      workout_exercises    = [] 
       curr_exercise_number = 1
       for e in request.POST.getlist("exercise"):
         e_name = capitalize_sentence(e)
@@ -97,11 +97,14 @@ def workout_edit_view(request, pk):
         except:
           curr_e_type     = ExerciseType(name=e_name, user=request.user)
           curr_e_type.save()
-        curr_exercise   = Exercise(exercise_number=curr_exercise_number, exercise_type=curr_e_type, rpe=10)
+        try:
+          curr_e_lsrpe  = int(request.POST.get(f"E{curr_exercise_number}-lsrpe"))
+        except:
+          curr_e_lsrpe  = 0
+        curr_exercise   = Exercise(exercise_number=curr_exercise_number, exercise_type=curr_e_type, lsrpe=curr_e_lsrpe)
         curr_exercise.save()
         curr_set_number = 1
         for s in request.POST.getlist(f"E{curr_exercise_number}-reps"):
-          print(request.POST.getlist(f"E{curr_exercise_number}-reps"))
           curr_weight   = request.POST.getlist(f"E{curr_exercise_number}-weight")[curr_set_number - 1]
           curr_set      = Set(set_number=curr_set_number, 
                             weight=curr_weight, 
@@ -109,9 +112,9 @@ def workout_edit_view(request, pk):
           curr_set.save()
           curr_set_number += 1
           curr_exercise.sets.add(curr_set)
-        workout_exercises.append(curr_exercise)
         obj.exercises.add(curr_exercise)
         curr_exercise_number += 1
+      obj.name = request.POST.get("name")
       obj.save()
       if request.POST.get("save"):
         context["object"] = obj
@@ -127,3 +130,22 @@ class WorkoutDelete(LoginRequiredMixin, DeleteView):
 
   def get_queryset(self):
     return self.model.objects.filter(user__pk=self.request.user.id)
+
+
+@login_required
+def workout_clone_view(request, pk):
+  obj             = Workout.objects.get(pk=pk)
+  if obj.user.pk != request.user.pk:
+    return HttpResponseForbidden()
+  workout = Workout(name=obj.name, user=obj.user)
+  workout.save()
+  for exercise in obj.exercises.all():
+    curr_exercise = Exercise(exercise_number=exercise.exercise_number, exercise_type=exercise.exercise_type,
+                      lsrpe=exercise.lsrpe)
+    curr_exercise.save()
+    for s in exercise.sets.all():
+      curr_set    = Set(set_number=s.set_number, weight=0, reps=0)
+      curr_set.save()
+      curr_exercise.sets.add(curr_set)
+    workout.exercises.add(curr_exercise)
+  return redirect('workout_update', workout.pk)
