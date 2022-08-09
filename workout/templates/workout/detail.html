@@ -30,7 +30,9 @@
   </br>
   {% endfor %}
   <div class="container">
+    <a class="btn btn-outline-success" href="#">Clone Workout</a>
     <a class="btn btn-secondary" href="{% url 'workout_update' pk=object.pk %}">Update Workout</a>
+    <div class="row mt-1"></div>
     <a class="btn btn-danger" href="{% url 'workout_delete' pk=object.pk %}">Delete Workout</a>
   </div>
 {% endblock content %}
