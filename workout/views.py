@@ -37,7 +37,6 @@ def workout_create_view(request):
     if request.POST.get("save") or request.POST.get("finish"):
       workout = Workout(name=request.POST.get("name"), user=User.objects.get(username=request.user))
       workout.save()
-      workout_exercises   = [] 
       curr_exercise_number = 1
       for e in request.POST.getlist("exercise"):
         e_name = capitalize_sentence(e)
@@ -61,7 +60,6 @@ def workout_create_view(request):
           curr_set.save()
           curr_set_number += 1
           curr_exercise.sets.add(curr_set)
-        workout_exercises.append(curr_exercise)
         workout.exercises.add(curr_exercise)
         curr_exercise_number += 1
       if request.POST.get("save"):
@@ -91,7 +89,6 @@ def workout_edit_view(request, pk):
       old_exercises        = obj.exercises.all()
       for e in old_exercises:
         e.delete()
-      workout_exercises    = [] 
       curr_exercise_number = 1
       for e in request.POST.getlist("exercise"):
         e_name = capitalize_sentence(e)
@@ -115,7 +112,6 @@ def workout_edit_view(request, pk):
           curr_set.save()
           curr_set_number += 1
           curr_exercise.sets.add(curr_set)
-        workout_exercises.append(curr_exercise) #do I need this anymore??
         obj.exercises.add(curr_exercise)
         curr_exercise_number += 1
       obj.save()
