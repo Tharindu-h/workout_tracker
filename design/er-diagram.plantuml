@@ -48,6 +48,16 @@ entity Set {
    
 }
 
+entity Template {
+   * pk <<generated>>
+   ---
+     name : Char Field
+   * Exercises <<OneToMany>>
+   * User <<FK>>
+   * created  : Date-Time Field
+   * modified : Date-Time Field
+}
+
 ' Workout is related to exaxtly one User, User has zero or many workouts
 Workout }o--|| User
 ' Workout is related to one or many Exercise instances and A Exercise is related to exactly one Workout instance 
@@ -56,4 +66,9 @@ Workout ||--|{ Exercise
 Exercise }o--|| ExerciseType
 ' an Exercise has one or many sets, a Set is only related to one Exercise
 Exercise ||--|{ Set
+' Template is related to exaxtly one User, User has zero or many workouts
+Template }o--|| User
+' Template is related to one or many Exercise instances and A Exercise is related to exactly one Workout instance 
+Template ||--|{ Exercise
+' Exercise has exactly one ExerciseType but ExerciseType can be related to many Exercise instances
 @enduml
