@@ -68,3 +68,20 @@ class Set(models.Model):
 
 	class Meta:
 		ordering = ['set_number']
+
+class Template(models.Model):
+  name        = models.CharField(verbose_name=("Name"), max_length=50)
+  description = models.CharField(verbose_name=("Description"), max_length=500, blank=True)
+  workouts    = models.ManyToManyField("Workout", verbose_name=("Workouts"), blank=False)
+
+  def __str__(self):
+      return self.name
+
+  class Meta:
+    ordering = ['-pk']
+
+@receiver(pre_delete, sender=Template)
+def pre_delete_receiver(sender, instance, **kwargs):
+  workouts   = instance.workouts.all()
+  for w in workouts:
+    w.delete()
