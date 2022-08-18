@@ -6,23 +6,27 @@
   <div class="container">
     <a class="btn btn-primary btn-block btn-lg" href="{% url 'workout_create' %}">+ Start Workout</a>
   </div>
+  {% if not workouts %}
+    <div class="container mt-3">
+      <h5>You have no previous workouts</h5>
+    </div>
+  {% endif %}
   {% for workout in workouts %}
-  <div class="container mt-4">
-    <div class="card" style="">
-      <div class="card-body">
-        <h5 class="card-title font-weight-bold">{{ workout.name}}</h5>
-        <p class="card-text">{{ workout.description }}</p>
-        <p class="card-text font-italic">Created: {{ workout.created }}</p>
-        <p class="card-text font-italic">Edited: {{ workout.modified }}</p>
-        <a href="{% url 'workout_detail' workout.pk %}" class="btn btn-primary">Workout Detail</a> 
-        <a href="{% url 'workout_update' workout.pk %}" class="btn btn-secondary">Update Workout</a>
-        <div class="row mt-1"></div>
-        <a href="{% url 'workout_clone' workout.pk %}" class="btn btn-outline-success">Clone Workout</a> 
-        <a href="{% url 'workout_delete' workout.pk %}" class="btn btn-outline-danger">Delete Workout</a>
+    <div class="container mt-4">
+      <div class="card" style="">
+        <div class="card-body">
+          <h5 class="card-title font-weight-bold">{{ workout.name}}</h5>
+          <p class="card-text">{{ workout.description }}</p>
+          <p class="card-text font-italic">Created: {{ workout.created }}</p>
+          <p class="card-text font-italic">Edited: {{ workout.modified }}</p>
+          <a href="{% url 'workout_detail' workout.pk %}" class="btn btn-primary">Workout Detail</a> 
+          <a href="{% url 'workout_update' workout.pk %}" class="btn btn-secondary">Update Workout</a>
+          <div class="row mt-1"></div>
+          <a href="{% url 'workout_clone' workout.pk %}" class="btn btn-outline-success">Clone Workout</a> 
+          <a href="{% url 'workout_delete' workout.pk %}" class="btn btn-outline-danger">Delete Workout</a>
+        </div>
       </div>
     </div>
-  </div>
-
   {% endfor %}
 {% endblock %}
 
