@@ -150,10 +150,10 @@ def workout_clone_view(request, pk):
     workout.exercises.add(curr_exercise)
   return redirect('workout_update', workout.pk)
 
-class WorkoutsOverView(LoginRequiredMixin, TemplateView):
+class TemplatesOverView(LoginRequiredMixin, TemplateView):
 	template_name = 'workout/templates.html'
     
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		context['templates'] = Template.objects.filter(user__pk=self.request.user.id)
+		context['templates'] = Template.objects.filter(Q(user__id=1) | Q(user__pk=self.request.user.id))
 		return context
