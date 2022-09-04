@@ -9,9 +9,3 @@ class WorkoutCreateForm(forms.ModelForm):
 		widgets = {
 			'exercises' : forms.Select(attrs={'class': 'form-control'})
 		}
-"""
-class SetCreateForm(forms.ModelForm):
-  class Meta:
-    model = Set
-    fields = ['weight', 'reps']
-"""
