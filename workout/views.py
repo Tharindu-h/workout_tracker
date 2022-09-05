@@ -157,3 +157,11 @@ class TemplatesOverView(LoginRequiredMixin, TemplateView):
 		context = super().get_context_data(**kwargs)
 		context['templates'] = Template.objects.filter(Q(user__id=1) | Q(user__pk=self.request.user.id))
 		return context
+
+@login_required
+def workout_template_create_view(request):
+	exercises = ExerciseType.objects.filter(Q(user__id=1) | Q(user__id=request.user.pk))
+	context = {
+		'exercises' : exercises
+	}
+	return render(request, 'workout/create_template.html', context)

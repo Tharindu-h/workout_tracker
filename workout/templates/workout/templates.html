@@ -4,7 +4,7 @@
     <h3>My Workout Templates</h3>
   </div>
   <div class="container">
-    <a class="btn btn-primary btn-block btn-lg" href="#">+ Create New Workout Template</a>
+    <a class="btn btn-primary btn-block btn-lg" href="{% url 'template_create' %}">+ Create New Workout Template</a>
   </div>
   {% for template in templates %}
   <div class="container mt-4">
