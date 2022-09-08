@@ -1,7 +1,5 @@
-const exercises = document.querySelector('.exercises');
-const addExercise = document.querySelector(".addExercise");
-exercises.addEventListener('click', eventDelegationForClickEvents);
-addExercise.addEventListener("click", cloneExerciseForm);
+const workout = document.querySelector('.workout');
+workout.addEventListener('click', eventDelegationForClickEvents);
 
 addSelect2();
 
@@ -43,6 +41,9 @@ function eventDelegationForClickEvents(e) {
   }
   if (e.target.matches('.removeExercise')) {
     e.target.parentNode.parentNode.parentNode.remove();
+  }
+  if (e.target.matches('.addExercise')) {
+    cloneExerciseForm();
   }
 }
 

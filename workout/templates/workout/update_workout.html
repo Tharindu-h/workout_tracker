@@ -4,7 +4,7 @@
 {% block content %}
   <form method="POST" class="content-section" name="workoutCreationForm" onsubmit="return validateForm()">
     {% csrf_token %}
-    <fieldset class="form-group">
+    <fieldset class="form-group workout">
       <legend class="border-bottom mb-4">{{ object.name }}</legend>
       <div class="container">
         <div class="row mt-2">
