@@ -27,9 +27,15 @@
               <li class="nav-item active">
                 <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
               </li>
-              <li class="nav-item active">
-                <a class="nav-item nav-link" href="{% url 'templates_overview' %}">Templates</a>
-              </li>
+              {% if request.path == "/templates" %}
+                <li class="nav-item active">
+                  <a class="nav-item nav-link" href="{% url 'workout_overview' %}">Workouts</a>
+                </li>
+              {% else %}
+                <li class="nav-item active">
+                  <a class="nav-item nav-link" href="{% url 'templates_overview' %}">Templates</a>
+                </li>
+              {% endif %}
               <li class="nav-item active">
                 <a class="nav-item nav-link" href="{% url 'logout' %}">Log Out</a>
               </li>
