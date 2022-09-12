@@ -52,14 +52,15 @@ function eventDelegationForClickEvents(e) {
     e.target.parentNode.parentNode.parentNode.remove();
   }
   if (e.target.matches('.addExercise')) {
-    cloneExerciseForm();
+    let workoutId  = e.target.parentNode.parentNode.parentNode.id;
+    cloneExerciseForm(workoutId);
   }
   if (e.target.matches('.addWorkoutButton')) {
     cloneWorkoutForm();
   }
 }
 
-function cloneExerciseForm(){
+function cloneExerciseForm(workoutId){
   fetch('/api/workout/exercise-types')
   .then(response => response.json())
   .then(function(data){
@@ -67,8 +68,8 @@ function cloneExerciseForm(){
     for (let option = 0; option < data.length; option++){
       options +=`<option value="${data[option].name}" class="options">${data[option].name}</option>`;
     }
-    let currExercise = document.querySelectorAll('.exercises .exercise').length;
-    document.querySelector('.exercises').insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1, options));
+    let currExercise = document.querySelectorAll(`#${workoutId} .exercises .exercise`).length;
+    document.querySelector(`#${workoutId} .exercises`).insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1, options));
     addSelect2();
   });
 }
