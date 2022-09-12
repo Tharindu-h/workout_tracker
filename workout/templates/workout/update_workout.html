@@ -4,103 +4,105 @@
 {% block content %}
   <form method="POST" class="content-section" name="workoutCreationForm" onsubmit="return validateForm()">
     {% csrf_token %}
-    <fieldset class="form-group workout">
-      <legend class="border-bottom mb-4">{{ object.name }}</legend>
-      <div class="container">
-        <div class="row mt-2">
-          <div class="col-4">
-            <label>Workout Name</label>
-          </div>
-          <div class="col-8">
-            <input type="text" class="form-control" name="name" value="{{ object.name }}"></input>
+    <div id="workout1">
+      <fieldset class="form-group workout">
+        <legend class="border-bottom mb-4">{{ object.name }}</legend>
+        <div class="container">
+          <div class="row mt-2">
+            <div class="col-4">
+              <label>Workout Name</label>
+            </div>
+            <div class="col-8">
+              <input type="text" class="form-control" name="name" value="{{ object.name }}"></input>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="exercises">
-        {% for exercise in object.exercises.all %}
-          <hr>
-          <div class="container exercise" id="exercise{{ exercise.exercise_number }}">
-            <div class="row">
-              <small class="help-text">Select option 'Other' to add exercises not listed here</small>
-            </div>
-            <div class="row justify-content-between mt-4" id="select-e1-div">
-              <div class="col">
-                <label>Exercise</label>
+        <div class="exercises">
+          {% for exercise in object.exercises.all %}
+            <hr>
+            <div class="container exercise" id="exercise{{ exercise.exercise_number }}">
+              <div class="row">
+                <small class="help-text">Select option 'Other' to add exercises not listed here</small>
               </div>
-              <div class="col" id="exercise_options">
-                <select name="exercise" class="select-exercise" id="select-e{{ exercise.exercise_number }}">
-                  <option value="{{ exercise.exercise_type.name }}">{{ exercise.exercise_type.name }}</option>
-                  {% for e in exercises %}
-                    {% if exercise.exercise_type.name != e.name %}
-                      <option value="{{ e.name }}" class="options">{{ e.name }}</option>
-                    {% endif %}
-                  {% endfor %}
-                  <option value="Other">Other</option>
-                </select>
+              <div class="row justify-content-between mt-4" id="select-e1-div">
+                <div class="col">
+                  <label>Exercise</label>
+                </div>
+                <div class="col" id="exercise_options">
+                  <select name="exercise" class="select-exercise" id="select-e{{ exercise.exercise_number }}">
+                    <option value="{{ exercise.exercise_type.name }}">{{ exercise.exercise_type.name }}</option>
+                    {% for e in exercises %}
+                      {% if exercise.exercise_type.name != e.name %}
+                        <option value="{{ e.name }}" class="options">{{ e.name }}</option>
+                      {% endif %}
+                    {% endfor %}
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="row mt-4">
-              <div class="col-2">
-              </div>
-              <div class="col-3">
-                <div class="d-flex justify-content-center">Weight</div>
-              </div>
-              <div class="col-3">
-                <div class="d-flex justify-content-center">Reps</div>
-              </div>
-            </div>
-            {% for set in exercise.sets.all %}
-              <div class="row set" id="e{{ exercise.exercise_number }}-set{{ set.set_number }}">
+              <div class="row mt-4">
                 <div class="col-2">
-                  <label>Set {{ set.set_number }}</label> 
                 </div>
                 <div class="col-3">
-                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-weight" value="{{ set.weight}}" id="e{{ exercise.exercise_number }}-set{{ set.set_number }}-weight"></input>
+                  <div class="d-flex justify-content-center">Weight</div>
                 </div>
                 <div class="col-3">
-                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-reps" value="{{ set.reps }}" id="e{{ exercise.exercise_number }}-set{{ set.set_number }}-reps"></input>
-                </div>
-                <div class="col-2 remove-set-button">
-                  <button type="button" class="btn btn-outline-danger removeSet">Remove Set
-                  </button>
+                  <div class="d-flex justify-content-center">Reps</div>
                 </div>
               </div>
-            {% endfor %}
-            <div class="row mt-4" id="lsrpe{{ exercise.exercise_number }}">
-              <small class="help-text">Last Set Rate of Perceived Exertion (1-10)</small>
-            </div>
-            <div class="row">
-              <div class="col-2">
-                <label>LSRPE</label> 
+              {% for set in exercise.sets.all %}
+                <div class="row set" id="e{{ exercise.exercise_number }}-set{{ set.set_number }}">
+                  <div class="col-2">
+                    <label>Set {{ set.set_number }}</label> 
+                  </div>
+                  <div class="col-3">
+                    <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-weight" value="{{ set.weight}}" id="e{{ exercise.exercise_number }}-set{{ set.set_number }}-weight"></input>
+                  </div>
+                  <div class="col-3">
+                    <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-reps" value="{{ set.reps }}" id="e{{ exercise.exercise_number }}-set{{ set.set_number }}-reps"></input>
+                  </div>
+                  <div class="col-2 remove-set-button">
+                    <button type="button" class="btn btn-outline-danger removeSet">Remove Set
+                    </button>
+                  </div>
+                </div>
+              {% endfor %}
+              <div class="row mt-4" id="lsrpe{{ exercise.exercise_number }}">
+                <small class="help-text">Last Set Rate of Perceived Exertion (1-10)</small>
               </div>
-              <div class="col-3">
-                {% if exercise.lsrpe != None %}
-                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-lsrpe" value={{ exercise.lsrpe }} id="e{{ exercise.exercise_number }}-lsrpe"></input>
-                {% else %}
-                  <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-lsrpe" value=0 id="e{{ exercise.exercise_number }}-lsrpe"></input>
-                {% endif %}
+              <div class="row">
+                <div class="col-2">
+                  <label>LSRPE</label> 
+                </div>
+                <div class="col-3">
+                  {% if exercise.lsrpe != None %}
+                    <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-lsrpe" value={{ exercise.lsrpe }} id="e{{ exercise.exercise_number }}-lsrpe"></input>
+                  {% else %}
+                    <input type="text" class="form-control" name="E{{ exercise.exercise_number }}-lsrpe" value=0 id="e{{ exercise.exercise_number }}-lsrpe"></input>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="row mt-2 justify-content-start" id="addSetButton{{ exercise.exercise_number }}">
+                <div class="col-2"></div>
+                <div class="col-3">
+                  <button type="button" class="btn btn-outline-success addSet">Add New Set</button>
+                </div>
+              </div>
+              <div class="row mt-2 justify-content-start" id="removeExercise{{ exercise.exercise_number }}">
+                <div class="col-2"></div>
+                <div class="col-3">
+                  <button type="button" class="btn btn-danger removeExercise">Remove Exercise</button>
+                </div>
               </div>
             </div>
-            <div class="row mt-2 justify-content-start" id="addSetButton{{ exercise.exercise_number }}">
-              <div class="col-2"></div>
-              <div class="col-3">
-                <button type="button" class="btn btn-outline-success addSet">Add New Set</button>
-              </div>
-            </div>
-            <div class="row mt-2 justify-content-start" id="removeExercise{{ exercise.exercise_number }}">
-              <div class="col-2"></div>
-              <div class="col-3">
-                <button type="button" class="btn btn-danger removeExercise">Remove Exercise</button>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-      <hr>
-      <div class="container">
-        <button type="button" class="btn btn-outline-success addExercise">Add New Exercise</button>
-      </div>
-    </fieldset>
+          {% endfor %}
+        </div>
+        <hr>
+        <div class="container">
+          <button type="button" class="btn btn-outline-success addExercise">Add New Exercise</button>
+        </div>
+      </fieldset>
+    </div>
     <div class="container">
       <div class="form-group">
         <button class="btn btn-outline-info" type="submit" name="save" value="save">Save</button>

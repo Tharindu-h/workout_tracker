@@ -1,7 +1,12 @@
 const workout = document.querySelector('.workout');
-const addWorkout = document.querySelector(".addWorkout");
-workout.addEventListener('click', eventDelegationForClickEvents);
-addWorkout.addEventListener("click", cloneWorkoutForm);
+const templateForm = document.querySelector('.templateForm');
+
+if (templateForm) {
+  templateForm.addEventListener('click', eventDelegationForClickEvents);
+}
+else {
+  workout.addEventListener('click', eventDelegationForClickEvents);
+}
 
 addSelect2();
 
@@ -39,13 +44,18 @@ function eventDelegationForClickEvents(e) {
     e.target.parentNode.parentNode.remove();
   }
   if (e.target.matches('.addSet')) {
-    cloneSetForm(e.target.parentNode.parentNode.parentNode.id);
+    let workoutId  = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.id;
+    let exerciseId = e.target.parentNode.parentNode.parentNode.id;
+    cloneSetForm(workoutId, exerciseId);
   }
   if (e.target.matches('.removeExercise')) {
     e.target.parentNode.parentNode.parentNode.remove();
   }
   if (e.target.matches('.addExercise')) {
     cloneExerciseForm();
+  }
+  if (e.target.matches('.addWorkoutButton')) {
+    cloneWorkoutForm();
   }
 }
 
@@ -65,11 +75,11 @@ function cloneExerciseForm(){
 
 
 
-function cloneSetForm(id){
-  let currSet = document.querySelectorAll(`#${id} .set`).length;
-  let currExercise = document.querySelectorAll('.exercises .exercise').length;
-  let idNumber = getIntegerFromStr(id)
-  document.getElementById(`lsrpe${idNumber}`).insertAdjacentHTML("beforebegin", getSetForm(idNumber, currSet + 1));
+function cloneSetForm(workoutId, exerciseId){
+  let currSet = document.querySelectorAll(`#${workoutId} #${exerciseId} .set`).length;
+  let currExercise = document.querySelectorAll(`#${workoutId}.exercises .exercise`).length;
+  let idNumber = getIntegerFromStr(exerciseId);
+  document.querySelector(`#${workoutId} #lsrpe${idNumber}`).insertAdjacentHTML("beforebegin", getSetForm(idNumber, currSet + 1));
 }
 
 
