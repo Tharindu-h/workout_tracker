@@ -1,0 +1,26 @@
+{% extends "workout/base.html" %}
+{% block content %}
+  <div class="container">
+    <h3>My Workout Templates</h3>
+  </div>
+  <div class="container">
+    <a class="btn btn-primary btn-block btn-lg" href="{% url 'template_create' %}">+ Create New Workout Template</a>
+  </div>
+  {% for template in templates %}
+  <div class="container mt-4">
+    <div class="card" style="">
+      <div class="card-body">
+        <h5 class="card-title font-weight-bold">{{ template.name}}</h5>
+        <p class="card-text">{{ template.description }}</p>
+        <a href="{% url 'workout_detail' workout.pk %}" class="btn btn-primary">Workout Detail</a> 
+        <a href="{% url 'workout_update' workout.pk %}" class="btn btn-secondary">Update Workout</a>
+        <div class="row mt-1"></div>
+        <a href="{% url 'workout_clone' workout.pk %}" class="btn btn-outline-success">Clone Workout</a> 
+        <a href="{% url 'workout_delete' workout.pk %}" class="btn btn-outline-danger">Delete Workout</a>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+{% endblock %}
+

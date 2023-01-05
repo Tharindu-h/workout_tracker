@@ -1,7 +1,12 @@
-const exercises = document.querySelector('.exercises');
-const addExercise = document.querySelector(".addExercise");
-exercises.addEventListener('click', eventDelegationForClickEvents);
-addExercise.addEventListener("click", cloneExerciseForm);
+const workout = document.querySelector('.workout');
+const templateForm = document.querySelector('.templateForm');
+
+if (templateForm) {
+  templateForm.addEventListener('click', eventDelegationForClickEvents);
+}
+else {
+  workout.addEventListener('click', eventDelegationForClickEvents);
+}
 
 addSelect2();
 
@@ -39,14 +44,23 @@ function eventDelegationForClickEvents(e) {
     e.target.parentNode.parentNode.remove();
   }
   if (e.target.matches('.addSet')) {
-    cloneSetForm(e.target.parentNode.parentNode.parentNode.id);
+    let workoutId  = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.id;
+    let exerciseId = e.target.parentNode.parentNode.parentNode.id;
+    cloneSetForm(workoutId, exerciseId);
   }
   if (e.target.matches('.removeExercise')) {
     e.target.parentNode.parentNode.parentNode.remove();
   }
+  if (e.target.matches('.addExercise')) {
+    let workoutId  = e.target.parentNode.parentNode.parentNode.id;
+    cloneExerciseForm(workoutId);
+  }
+  if (e.target.matches('.addWorkoutButton')) {
+    cloneWorkoutForm();
+  }
 }
 
-function cloneExerciseForm(){
+function cloneExerciseForm(workoutId){
   fetch('/api/workout/exercise-types')
   .then(response => response.json())
   .then(function(data){
@@ -54,19 +68,19 @@ function cloneExerciseForm(){
     for (let option = 0; option < data.length; option++){
       options +=`<option value="${data[option].name}" class="options">${data[option].name}</option>`;
     }
-    let currExercise = document.querySelectorAll('.exercises .exercise').length;
-    document.querySelector('.exercises').insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1, options));
+    let currExercise = document.querySelectorAll(`#${workoutId} .exercises .exercise`).length;
+    document.querySelector(`#${workoutId} .exercises`).insertAdjacentHTML("beforeend", getExerciseFrom(currExercise + 1, options));
     addSelect2();
   });
 }
 
 
 
-function cloneSetForm(id){
-  let currSet = document.querySelectorAll(`#${id} .set`).length;
-  let currExercise = document.querySelectorAll('.exercises .exercise').length;
-  let idNumber = getIntegerFromStr(id)
-  document.getElementById(`lsrpe${idNumber}`).insertAdjacentHTML("beforebegin", getSetForm(idNumber, currSet + 1));
+function cloneSetForm(workoutId, exerciseId){
+  let currSet = document.querySelectorAll(`#${workoutId} #${exerciseId} .set`).length;
+  let currExercise = document.querySelectorAll(`#${workoutId}.exercises .exercise`).length;
+  let idNumber = getIntegerFromStr(exerciseId);
+  document.querySelector(`#${workoutId} #lsrpe${idNumber}`).insertAdjacentHTML("beforebegin", getSetForm(idNumber, currSet + 1));
 }
 
 
@@ -97,6 +111,19 @@ function validateForm(){
   return true;
 }
 
+function cloneWorkoutForm(){
+  fetch('/api/workout/exercise-types')
+  .then(response => response.json())
+  .then(function(data){
+    let options = "";
+    for (let option = 0; option < data.length; option++){
+      options +=`<option value="${data[option].name}" class="options">${data[option].name}</option>`;
+    }
+    let currWorkout = document.querySelectorAll('.workout').length;
+    document.querySelector('.addWorkout').insertAdjacentHTML("beforebegin", getWorkoutForm(currWorkout + 1, options));
+    addSelect2();
+  });
+}
 
 function addOtherInputBox(exerciseNumber){
   let inputBox =  `<div class="row justify-content-between" id="exercise-input-${exerciseNumber}">` +
@@ -213,4 +240,94 @@ function getFromValidateMessage(message) {
               ${message}
             </p>
           </div>`;
+}
+
+function getWorkoutForm(currWorkout, options) {
+  return  `<div class="content-section mt-4" id="workout${currWorkout}">`+
+            `<fieldset class="form-group workout">`+
+              `<legend class="border-bottom mb-4">New Workout</legend>`+
+              `<div class="container">`+
+                `<div class="row mt-2">`+
+                  `<div class="col-4">`+
+                    `<label>Workout Name</label>`+
+                  `</div>`+
+                  `<div class="col-8">`+
+                    `<input type="text" class="form-control" name="name"></input>`+
+                  `</div>`+
+                `</div>`+
+              `</div>`+
+              `<div class="exercises">`+
+                `<hr>`+
+                `<div class="container exercise" id="exercise1">`+
+                  `<div class="row">`+
+                    `<small class="help-text">Select option 'Other' to add exercises not listed here</small>`+
+                  `</div>`+
+                  `<div class="row justify-content-between mt-4" id="select-e1-div">`+
+                    `<div class="col">`+
+                      `<label>Exercise</label>`+
+                    `</div>`+
+                    `<div class="col" id="exercise_options">`+
+                      `<select name="exercise" class="select-exercise" id="select-e1">`+
+                      `<option value="----">----</option>` +
+                      `<option value="Other">Other</option>` +
+                      options +
+                      `</select>`+
+                    `</div>`+
+                  `</div>`+
+                  `<div class="row mt-4">`+
+                    `<div class="col-2">`+
+                    `</div>`+
+                    `<div class="col-3">`+
+                      `<div class="d-flex justify-content-center">Weight</div>`+
+                    `</div>`+
+                    `<div class="col-3">`+
+                      `<div class="d-flex justify-content-center">Reps</div>`+
+                    `</div>`+
+                  `</div>`+
+                  `<div class="row set" id="e1-set1">`+
+                    `<div class="col-2">`+
+                      `<label>Set 1</label> `+
+                    `</div>`+
+                    `<div class="col-3">`+
+                      `<input type="text" class="form-control" name="E1-weight" id="e1-set1-weight"></input>`+
+                    `</div>`+
+                    `<div class="col-3">`+
+                      `<input type="text" class="form-control" name="E1-reps" id="e1-set1-reps"></input>`+
+                    `</div>`+
+                    `<div class="col-2 remove-set-button">`+
+                      `<button type="button" class="btn btn-outline-danger removeSet">Remove Set`+
+                      `</button>`+
+                    `</div>`+
+                  `</div>`+
+                  `<div class="row mt-4" id="lsrpe1">`+
+                    `<small class="help-text">Last Set Rate of Perceived Exertion (1-10)</small>`+
+                  `</div>`+
+                  `<div class="row">`+
+                    `<div class="col-2">`+
+                      `<label>LSRPE</label> `+
+                    `</div>`+
+                    `<div class="col-3">`+
+                      `<input type="text" class="form-control" name="E1-lsrpe" id="e1-lsrpe"></input>`+
+                    `</div>`+
+                  `</div>`+
+                  `<div class="row mt-2 justify-content-start" id="addSetButton1">`+
+                    `<div class="col-2"></div>`+
+                    `<div class="col-3">`+
+                      `<button type="button" class="btn btn-outline-success addSet">Add New Set</button>`+
+                    `</div>`+
+                  `</div>`+
+                  `<div class="row mt-2 justify-content-start" id="removeExercise1">`+
+                    `<div class="col-2"></div>`+
+                    `<div class="col-3">`+
+                      `<button type="button" class="btn btn-danger removeExercise">Remove Exercise</button>`+
+                    `</div>`+
+                  `</div>`+
+                `</div>`+
+              `</div>`+
+              `<hr>`+
+              `<div class="container">`+
+                `<button type="button" class="btn btn-outline-success addExercise">Add New Exercise</button>`+
+              `</div>`+
+            `</fieldset>`+
+          `</div>`;
 }

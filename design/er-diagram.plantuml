@@ -1,4 +1,3 @@
-
 @startuml
 
 ' hide the spot
@@ -36,7 +35,7 @@ entity ExerciseType {
    * pk <<generated>>
    ---
    * name : Char Field
-     description : Char Field
+   * User <<FK>>
 }
 
 entity Set {
@@ -48,7 +47,16 @@ entity Set {
    
 }
 
-' Workout is related to exaxtly one User, User has zero or many workouts
+entity Template {
+   * pk <<generated>>
+   ---
+   * name : Char Field
+   * workouts <<OneToMany>>
+     description : Char Field
+   * User <<FK>>
+}
+
+' Workout is related to exactly one User, User has zero or many workouts
 Workout }o--|| User
 ' Workout is related to one or many Exercise instances and A Exercise is related to exactly one Workout instance 
 Workout ||--|{ Exercise
@@ -56,4 +64,8 @@ Workout ||--|{ Exercise
 Exercise }o--|| ExerciseType
 ' an Exercise has one or many sets, a Set is only related to one Exercise
 Exercise ||--|{ Set
+' a Template has one or many Workouts, a Workout is only related to one Template
+Template |o--|{ Workout
+' Template is related to exactly one User, User has zero or many Templates
+Template }o--|| User
 @enduml

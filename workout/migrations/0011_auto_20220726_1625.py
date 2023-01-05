@@ -20,14 +20,20 @@ def create_exercises(apps, schema_editor):
   root_user            = User.objects.get(id=1)
 
   for exercise in upper_body_exercises:
-    capitalized_exercise   = capitalize_sentence(exercise)
-    exercise_type, created = ExerciseType.objects.get_or_create(name=capitalized_exercise, user=root_user)
-    exercise_type.save()
+    try:
+      capitalized_exercise   = capitalize_sentence(exercise)
+      exercise_type, created = ExerciseType.objects.get_or_create(name=capitalized_exercise, user=root_user)
+      exercise_type.save()
+    except:
+      pass
 
   for exercise in lower_body_exercises:
-    capitalized_exercise   = capitalize_sentence(exercise)
-    exercise_type, created = ExerciseType.objects.get_or_create(name=capitalized_exercise, user=root_user)
-    exercise_type.save()
+    try:
+      capitalized_exercise   = capitalize_sentence(exercise)
+      exercise_type, created = ExerciseType.objects.get_or_create(name=capitalized_exercise, user=root_user)
+      exercise_type.save()
+    except:
+      pass
 
 
 class Migration(migrations.Migration):

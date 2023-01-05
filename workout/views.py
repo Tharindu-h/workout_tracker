@@ -149,3 +149,19 @@ def workout_clone_view(request, pk):
       curr_exercise.sets.add(curr_set)
     workout.exercises.add(curr_exercise)
   return redirect('workout_update', workout.pk)
+
+class TemplatesOverView(LoginRequiredMixin, TemplateView):
+	template_name = 'workout/templates.html'
+    
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['templates'] = Template.objects.filter(Q(user__id=1) | Q(user__pk=self.request.user.id))
+		return context
+
+@login_required
+def workout_template_create_view(request):
+	exercises = ExerciseType.objects.filter(Q(user__id=1) | Q(user__id=request.user.pk))
+	context = {
+		'exercises' : exercises
+	}
+	return render(request, 'workout/create_template.html', context)
